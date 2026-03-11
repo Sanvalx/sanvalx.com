@@ -1,0 +1,22 @@
+RewriteEngine On
+
+# Forzar HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Opcional: redirigir www a dominio sin www (descomenta si quieres)
+# RewriteCond %{HTTP_HOST} ^www\.sanvalx\.com$ [NC]
+# RewriteRule ^(.*)$ https://sanvalx.com/$1 [L,R=301]
+
+# Servir 404 personalizada
+ErrorDocument 404 /404.html
+
+# Seguridad: no permitir acceso directo a config (credenciales BD)
+<IfModule mod_authz_core.c>
+  <FilesMatch "\.(env|ini|log|sql)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+RewriteRule ^config/ - [F,L]
+RewriteRule ^database/ - [F,L]
+
