@@ -1,0 +1,10 @@
+/* Páginas legales: mismo estilo, sin cursor custom */
+body.politicas { cursor: auto; }
+body.politicas #C, body.politicas #F { display: none; }
+.pol-wrap { max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; }
+.pol-wrap h1 { font-family: var(--fd); font-size: clamp(28px,4vw,36px); font-weight: 800; letter-spacing: -1px; margin-bottom: 32px; color: var(--t); }
+.pol-wrap h2 { font-family: var(--fd); font-size: 18px; font-weight: 700; margin-top: 32px; margin-bottom: 12px; color: var(--a); }
+.pol-wrap p, .pol-wrap li { color: var(--m); font-size: 15px; line-height: 1.75; margin-bottom: 14px; }
+.pol-wrap ul { margin: 14px 0 14px 20px; }
+.pol-back { display: inline-block; margin-bottom: 32px; color: var(--m); text-decoration: none; font-size: 13px; transition: color .2s; }
+.pol-back:hover { color: var(--a); }

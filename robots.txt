@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Mapa del sitio (créalo si lo necesitas)
+# Sitemap: https://sanvalx.com/sitemap.xml
+
