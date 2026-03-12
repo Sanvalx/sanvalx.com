@@ -1,4 +1,4 @@
-:root{--bg:#060606;--s:#0f0f0f;--b:#1d1d1d;--a:#c8f04a;--t:#f0ede6;--m:#555;--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
+:root{--bg:#060606;--s:#0f0f0f;--b:#1d1d1d;--a:#c8f04a;--t:#f0ede6;--m:#b2b2b2;--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t);font-family:var(--fb);overflow-x:hidden;cursor:none}
