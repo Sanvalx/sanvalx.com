@@ -222,17 +222,29 @@ html.js .r{opacity:0;transform:translateY(38px)}
   .menu-toggle.toggle-active .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   .hero{padding:0 22px 60px}
   .hfoot{flex-direction:column;gap:28px;align-items:flex-start}
+  .hero h1{font-size:clamp(42px,14vw,72px);letter-spacing:-2px;line-height:.92}
   .typeblock{width:100%;min-width:0;font-size:10.5px}
-  .hbtns{flex-direction:row;align-items:center}
+  .hbtns{flex-direction:column;align-items:stretch;width:100%}
+  .hbtns .bpri,.hbtns .bghost{width:100%;justify-content:center;text-align:center}
   .hero-card,.hero-card2{display:none}
+  .scroll-ind{display:none}
   .sec,.about,.proc,.cta,.testi{padding:80px 22px}
   .svc,.pg,.tg2{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr 1fr}
   .about{grid-template-columns:1fr}
+  .ab-badge{position:static;display:inline-block;margin-top:14px}
   .pg2{grid-template-columns:1fr}
   .pi2:first-child{grid-column:span 1}
   .pi2-info{opacity:1}
   .form-grid{grid-template-columns:1fr}
+  .form-shell{padding:24px}
+  .flinks{flex-wrap:wrap;justify-content:center;gap:14px 20px}
   footer{flex-direction:column;gap:22px;text-align:center;padding:32px 22px}
+}
+
+@media(max-width:560px){
+  .stats{grid-template-columns:1fr}
+  .st{padding:38px 24px}
+  .cta{padding-top:110px;padding-bottom:110px}
 }
 
