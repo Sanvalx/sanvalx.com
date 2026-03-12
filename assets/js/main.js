@@ -5,16 +5,55 @@ document.documentElement.classList.add('js');
   var nav = document.getElementById('nav');
   var toggle = document.querySelector('.menu-toggle');
   var links = document.querySelectorAll('.nl a');
+  var menuList = document.querySelector('.nl');
+  var mobileBreakpoint = 992;
+
+  function setMenuState(isOpen){
+    nav.classList.toggle('nav-active', isOpen);
+    toggle.classList.toggle('toggle-active', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  function closeMenu(){
+    setMenuState(false);
+  }
+
   if(nav && toggle){
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', 'main-menu');
+    if(menuList && !menuList.id){
+      menuList.id = 'main-menu';
+    }
+
     toggle.addEventListener('click', function(){
-      nav.classList.toggle('nav-active');
-      toggle.classList.toggle('toggle-active');
+      setMenuState(!nav.classList.contains('nav-active'));
     });
+
     links.forEach(function(link){
       link.addEventListener('click', function(){
-        nav.classList.remove('nav-active');
-        toggle.classList.remove('toggle-active');
+        closeMenu();
       });
+    });
+
+    if(menuList){
+      menuList.addEventListener('click', function(e){
+        if(e.target === menuList){
+          closeMenu();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && nav.classList.contains('nav-active')){
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', function(){
+      if(window.innerWidth > mobileBreakpoint){
+        closeMenu();
+      }
     });
   }
 })();
