@@ -1,3 +1,5 @@
+document.documentElement.classList.add('js');
+
 // ========== MENU TOGGLE (GLOBAL) ==========
 (function(){
   var nav = document.getElementById('nav');
@@ -141,4 +143,8 @@ if('IntersectionObserver' in window){
     });
   },{threshold:.08});
   document.querySelectorAll('.r').forEach(function(el){obs.observe(el);});
+}else{
+  // Fallback for browsers without IntersectionObserver:
+  // keep content visible instead of leaving reveal elements hidden.
+  document.querySelectorAll('.r').forEach(function(el){el.classList.add('on');});
 }
