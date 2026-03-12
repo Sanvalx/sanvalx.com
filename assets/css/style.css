@@ -27,6 +27,8 @@ nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
 .nl a{color:var(--m);text-decoration:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;transition:color .2s}
 .nl a:hover{color:var(--t)}
 .ncta{background:var(--a)!important;color:#060606!important;padding:10px 24px;border-radius:100px;font-weight:700!important}
+.menu-toggle{display:none;width:44px;height:44px;border:1px solid var(--b);border-radius:10px;background:rgba(6,6,6,.92);align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer}
+.menu-toggle .bar{width:18px;height:2px;background:var(--t);transition:transform .25s,opacity .2s}
 
 /* ---- HERO ---- */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 52px 88px;position:relative;overflow:hidden}
@@ -186,8 +188,28 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
 .fcopy{color:var(--m);font-size:11px}
 .r{opacity:0;transform:translateY(38px);transition:opacity .7s ease,transform .7s ease}
 .r.on{opacity:1;transform:translateY(0)}
-@media(max-width:960px){
-  nav{padding:18px 22px}.nl{display:none}
+/* WhatsApp floating */
+.wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#25d366;color:#060606;z-index:700;box-shadow:0 10px 32px rgba(0,0,0,.35);transition:transform .2s,box-shadow .25s}
+.wa-float:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.45)}
+
+/* Forms */
+.form-shell{max-width:860px;margin:0 auto;border:1px solid var(--b);background:var(--s);padding:34px;border-radius:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg{display:flex;flex-direction:column;gap:8px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:12px;color:var(--m);letter-spacing:.08em;text-transform:uppercase}
+.fg input,.fg select,.fg textarea{width:100%;border:1px solid var(--b);background:#0a0a0a;color:var(--t);border-radius:10px;padding:12px 14px;font-family:var(--fb)}
+.fg textarea{min-height:140px;resize:vertical}
+
+@media(max-width:992px){
+  nav{padding:18px 22px}
+  .menu-toggle{display:flex}
+  .nl{position:fixed;inset:0;background:rgba(6,6,6,.95);backdrop-filter:blur(8px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:26px;transform:translateY(-100%);transition:transform .35s ease;z-index:590}
+  .nl a{font-size:17px;letter-spacing:.08em}
+  nav.nav-active .nl{transform:translateY(0)}
+  .menu-toggle.toggle-active .bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .menu-toggle.toggle-active .bar:nth-child(2){opacity:0}
+  .menu-toggle.toggle-active .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   .hero{padding:0 22px 60px}
   .hfoot{flex-direction:column;gap:28px;align-items:flex-start}
   .typeblock{width:100%;min-width:0;font-size:10.5px}
@@ -199,6 +221,7 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
   .about{grid-template-columns:1fr}
   .pg2{grid-template-columns:1fr}
   .pi2:first-child{grid-column:span 1}
+  .form-grid{grid-template-columns:1fr}
   footer{flex-direction:column;gap:22px;text-align:center;padding:32px 22px}
 }
 
