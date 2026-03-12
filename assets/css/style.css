@@ -1,15 +1,18 @@
 :root{--bg:#060606;--s:#0f0f0f;--b:#1d1d1d;--a:#c8f04a;--t:#f0ede6;--m:#b2b2b2;--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--t);font-family:var(--fb);overflow-x:hidden;cursor:none}
+body{background:var(--bg);color:var(--t);font-family:var(--fb);overflow-x:hidden;cursor:auto}
+html.js body{cursor:none}
 
 /* ---- CURSOR ---- */
-#C,#F{position:fixed;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9999}
+#C,#F{position:fixed;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9999;opacity:0}
+html.js #C,html.js #F{opacity:1}
 #C{width:8px;height:8px;background:var(--a);transition:width .15s,height .15s,opacity .2s}
 #F{width:36px;height:36px;border:1px solid rgba(200,240,74,.35);z-index:9998;transition:width .22s,height .22s}
 
 /* ---- INTRO SCREEN ---- */
-#intro{position:fixed;inset:0;background:#000;z-index:5000;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#intro{display:none}
+html.js #intro{position:fixed;inset:0;background:#000;z-index:5000;display:flex;align-items:center;justify-content:center;pointer-events:none}
 #intro-logo{font-family:var(--fd);font-size:clamp(32px,5vw,64px);font-weight:800;letter-spacing:-2px;color:var(--t);opacity:0;position:relative}
 #intro-logo span{color:var(--a)}
 #intro-logo::before,#intro-logo::after{content:'SANVALX';position:absolute;top:0;left:0;width:100%;overflow:hidden;opacity:0}
@@ -18,7 +21,8 @@ body{background:var(--bg);color:var(--t);font-family:var(--fb);overflow-x:hidden
 .intro-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--a);width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
 
 /* ---- NAV ---- */
-nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 52px;z-index:600;transition:background .3s,opacity .4s,transform .4s;opacity:0;transform:translateY(-10px)}
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 52px;z-index:600;transition:background .3s,opacity .4s,transform .4s;opacity:1;transform:none}
+html.js nav{opacity:0;transform:translateY(-10px)}
 nav.visible{opacity:1;transform:translateY(0)}
 nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
 .logo{font-family:var(--fd);font-weight:800;font-size:22px;color:var(--t);text-decoration:none;letter-spacing:-.5px}
@@ -57,14 +61,16 @@ nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
 
 /* Badge */
 .hbadge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(200,240,74,.2);background:rgba(200,240,74,.055);color:var(--a);padding:7px 18px;border-radius:100px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:32px;width:fit-content;
-  opacity:0;transform:translateY(16px)}
+  opacity:1;transform:none}
+html.js .hbadge{opacity:0;transform:translateY(16px)}
 .hbadge::before{content:'';width:5px;height:5px;background:var(--a);border-radius:50%;animation:blink 2s infinite}
 
 /* H1 — reveal por clip-path por línea */
 .hero h1{font-family:var(--fd);font-size:clamp(56px,9.2vw,126px);font-weight:800;line-height:.87;letter-spacing:-4px;margin-bottom:52px;position:relative;z-index:2}
 .hero h1 em{font-style:italic;font-weight:300;font-family:var(--fb);color:var(--m);font-size:.72em;letter-spacing:-2px}
 .hline{display:block;overflow:hidden;padding-bottom:.08em}
-.hline-inner{display:block;transform:translateY(105%)}
+.hline-inner{display:block;transform:none}
+html.js .hline-inner{transform:translateY(105%)}
 .out{color:transparent;-webkit-text-stroke:1.5px rgba(200,240,74,.45)}
 
 /* Glitch en Impacto */
@@ -75,7 +81,8 @@ nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
 @keyframes gi1{0%,85%,100%{opacity:0;transform:none}86%{opacity:1;transform:translate(-4px,0) skewX(2deg)}88%{opacity:1;transform:translate(4px,0) skewX(-2deg)}90%{opacity:1;transform:translate(-2px,1px)}92%{opacity:0}}
 @keyframes gi2{0%,85%,100%{opacity:0;transform:none}87%{opacity:1;transform:translate(4px,-1px) skewX(-3deg)}89%{opacity:1;transform:translate(-3px,1px) skewX(2deg)}91%{opacity:1;transform:translate(2px,0)}93%{opacity:0}}
 
-.hfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;position:relative;z-index:2;opacity:0;transform:translateY(20px)}
+.hfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;position:relative;z-index:2;opacity:1;transform:none}
+html.js .hfoot{opacity:0;transform:translateY(20px)}
 
 /* Typewriter */
 .typeblock{font-family:'Courier New',monospace;font-size:11.5px;line-height:1.95;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:26px 22px 18px;position:relative;flex-shrink:0;width:460px}
@@ -98,7 +105,8 @@ nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
 .bghost span{display:inline-block;transition:transform .25s}
 .bghost:hover span{transform:translateX(6px)}
 
-.scroll-ind{position:absolute;right:52px;bottom:88px;writing-mode:vertical-rl;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--m);display:flex;align-items:center;gap:10px;z-index:2;opacity:0}
+.scroll-ind{position:absolute;right:52px;bottom:88px;writing-mode:vertical-rl;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--m);display:flex;align-items:center;gap:10px;z-index:2;opacity:1}
+html.js .scroll-ind{opacity:0}
 .scroll-ind::after{content:'';width:1px;height:50px;background:linear-gradient(to bottom,rgba(200,240,74,.5),transparent);animation:lineDown 2s ease infinite}
 @keyframes lineDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
@@ -186,7 +194,9 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
 .flinks a{color:var(--m);text-decoration:none;font-size:12px;transition:color .2s}
 .flinks a:hover{color:var(--t)}
 .fcopy{color:var(--m);font-size:11px}
-.r{opacity:0;transform:translateY(38px);transition:opacity .7s ease,transform .7s ease}
+/* Reveal elements stay visible by default; JS mode enables animated reveal. */
+.r{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
+html.js .r{opacity:0;transform:translateY(38px)}
 .r.on{opacity:1;transform:translateY(0)}
 /* WhatsApp floating */
 .wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#25d366;color:#060606;z-index:700;box-shadow:0 10px 32px rgba(0,0,0,.35);transition:transform .2s,box-shadow .25s}
@@ -221,6 +231,7 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
   .about{grid-template-columns:1fr}
   .pg2{grid-template-columns:1fr}
   .pi2:first-child{grid-column:span 1}
+  .pi2-info{opacity:1}
   .form-grid{grid-template-columns:1fr}
   footer{flex-direction:column;gap:22px;text-align:center;padding:32px 22px}
 }
