@@ -248,3 +248,49 @@ html.js .r{opacity:0;transform:translateY(38px)}
   .cta{padding-top:110px;padding-bottom:110px}
 }
 
+/* 1. Page Transition Base */
+body {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.page-loaded {
+  opacity: 1;
+}
+body.page-exit {
+  opacity: 0 !important;
+}
+
+/* 2. Tipografía Premium (Estilo Rejouice / Studio Size) */
+h1, h2, .ttl {
+  letter-spacing: -0.04em !important; /* Tracking ajustado para dar un look editorial/tecnológico */
+  line-height: 1 !important;
+}
+h1 em, h2 em, .ttl em {
+  font-family: 'DM Sans', serif; /* Contraste tipográfico: Sans-serif pesado con Serif Itálico */
+  font-weight: 300;
+  color: var(--m, #c8f04a); /* El acento neón */
+}
+
+/* 3. Sistema de Scroll Reveal (Aparición fluida) */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 4. Efectos Hover Premium para CTAs */
+.bpri, .ncta {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  overflow: hidden;
+}
+.bpri:hover, .ncta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(200, 240, 74, 0.2); /* Resplandor sutil */
+}
+
