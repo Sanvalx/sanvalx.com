@@ -1,0 +1,19 @@
+body.metodo-page{cursor:auto}
+.metodo-wrap{max-width:980px;margin:0 auto;padding:120px 24px 90px}
+.metodo-kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--a);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.metodo-kicker::before{content:'';width:30px;height:1px;background:var(--a)}
+.metodo-title{font-family:var(--fd);font-size:clamp(42px,6.5vw,82px);font-weight:800;letter-spacing:-3px;line-height:.92;margin-bottom:22px}
+.metodo-sub{max-width:780px;color:var(--m);font-size:17px;line-height:1.8;margin-bottom:56px}
+.methodology-timeline{display:grid;grid-template-columns:1fr;gap:1px;background:var(--b);border:1px solid var(--b)}
+.timeline-item{background:var(--bg);padding:34px 34px 30px;position:relative}
+.timeline-phase{font-family:var(--fd);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--a);margin-bottom:10px}
+.timeline-item h3{font-family:var(--fd);font-size:28px;font-weight:700;letter-spacing:-1px;line-height:1.05;margin-bottom:14px}
+.timeline-item p{color:var(--m);font-size:15px;line-height:1.8;margin-bottom:16px}
+.timeline-points{display:flex;flex-wrap:wrap;gap:8px}
+.timeline-points li{list-style:none;padding:6px 12px;border:1px solid var(--b);border-radius:100px;font-size:11px;color:var(--m)}
+@media(max-width:960px){
+  .metodo-wrap{padding:95px 22px 70px}
+  .metodo-sub{font-size:15px}
+  .timeline-item{padding:26px 20px 22px}
+  .timeline-item h3{font-size:24px}
+}
