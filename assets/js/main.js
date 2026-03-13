@@ -3,15 +3,19 @@ document.documentElement.classList.add('js');
 // ========== MENU TOGGLE (GLOBAL) ==========
 (function(){
   var nav = document.getElementById('nav');
-  var toggle = document.querySelector('.menu-toggle');
-  var links = document.querySelectorAll('.nl a');
-  var menuList = document.querySelector('.nl');
+  var menuToggle = document.querySelector('.menu-toggle');
+  var navMenu = document.querySelector('.nl');
+  var navLinks = document.querySelectorAll('.nl li a');
   var mobileBreakpoint = 992;
 
   function setMenuState(isOpen){
-    nav.classList.toggle('nav-active', isOpen);
-    toggle.classList.toggle('toggle-active', isOpen);
-    toggle.setAttribute('aria-expanded', String(isOpen));
+    if(menuToggle){
+      menuToggle.classList.toggle('is-active', isOpen);
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    }
+    if(navMenu){
+      navMenu.classList.toggle('nav-active', isOpen);
+    }
     document.body.style.overflow = isOpen ? 'hidden' : '';
   }
 
@@ -19,33 +23,31 @@ document.documentElement.classList.add('js');
     setMenuState(false);
   }
 
-  if(nav && toggle){
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-controls', 'main-menu');
-    if(menuList && !menuList.id){
-      menuList.id = 'main-menu';
+  if(menuToggle && navMenu){
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-controls', 'main-menu');
+    if(!navMenu.id){
+      navMenu.id = 'main-menu';
     }
 
-    toggle.addEventListener('click', function(){
-      setMenuState(!nav.classList.contains('nav-active'));
+    menuToggle.addEventListener('click', function(){
+      setMenuState(!navMenu.classList.contains('nav-active'));
     });
 
-    links.forEach(function(link){
+    navLinks.forEach(function(link){
       link.addEventListener('click', function(){
         closeMenu();
       });
     });
 
-    if(menuList){
-      menuList.addEventListener('click', function(e){
-        if(e.target === menuList){
-          closeMenu();
-        }
-      });
-    }
+    navMenu.addEventListener('click', function(e){
+      if(e.target === navMenu){
+        closeMenu();
+      }
+    });
 
     document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && nav.classList.contains('nav-active')){
+      if(e.key === 'Escape' && navMenu.classList.contains('nav-active')){
         closeMenu();
       }
     });
@@ -142,14 +144,25 @@ var introEl=document.getElementById('intro');
 var introLogo=document.getElementById('intro-logo');
 var introBar=document.getElementById('intro-bar');
 var introKey='sanvalx_intro_seen';
-var shouldPlayIntro=true;
-try{
-  shouldPlayIntro=!sessionStorage.getItem(introKey);
-}catch(err){
-  shouldPlayIntro=true;
+function hasIntroSeen(){
+  try{ if(sessionStorage.getItem(introKey)==='1') return true; }catch(err){}
+  try{ if(localStorage.getItem(introKey)==='1') return true; }catch(err){}
+  try{ if(window.name.indexOf('__sanvalx_intro_seen__')!==-1) return true; }catch(err){}
+  return document.cookie.indexOf('sanvalx_intro_seen=1')!==-1;
 }
-if(introEl && introLogo && introBar && shouldPlayIntro){
+function markIntroSeen(){
   try{sessionStorage.setItem(introKey,'1');}catch(err){}
+  try{localStorage.setItem(introKey,'1');}catch(err){}
+  try{
+    if(window.name.indexOf('__sanvalx_intro_seen__')===-1){
+      window.name += '__sanvalx_intro_seen__';
+    }
+  }catch(err){}
+  document.cookie='sanvalx_intro_seen=1; path=/; max-age=31536000; SameSite=Lax';
+}
+var shouldPlayIntro=!hasIntroSeen();
+if(introEl && introLogo && introBar && shouldPlayIntro){
+  markIntroSeen();
   animate(introLogo,'opacity',0,1,500,200);
   setTimeout(function(){introBar.style.width='100%';},400);
   setTimeout(function(){
@@ -181,7 +194,7 @@ if(introEl && introLogo && introBar && shouldPlayIntro){
   var c2=document.getElementById('hcard2');if(c2)c2.classList.add('show');
   var cnt1=document.getElementById('cnt1');if(cnt1)cnt1.textContent='10';
   var si=document.getElementById('scroll-ind');if(si)si.style.opacity='1';
-  try{sessionStorage.setItem(introKey,'1');}catch(err){}
+  markIntroSeen();
 }
 
 // ========== NAV SCROLL ==========
