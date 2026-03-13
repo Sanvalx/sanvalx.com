@@ -141,7 +141,15 @@ function countTo(el,target,dur,delay){
 var introEl=document.getElementById('intro');
 var introLogo=document.getElementById('intro-logo');
 var introBar=document.getElementById('intro-bar');
-if(introEl && introLogo && introBar){
+var introKey='sanvalx_intro_seen';
+var shouldPlayIntro=true;
+try{
+  shouldPlayIntro=!sessionStorage.getItem(introKey);
+}catch(err){
+  shouldPlayIntro=true;
+}
+if(introEl && introLogo && introBar && shouldPlayIntro){
+  try{sessionStorage.setItem(introKey,'1');}catch(err){}
   animate(introLogo,'opacity',0,1,500,200);
   setTimeout(function(){introBar.style.width='100%';},400);
   setTimeout(function(){
@@ -163,6 +171,17 @@ if(introEl && introLogo && introBar){
   setTimeout(function(){var c2=document.getElementById('hcard2');if(c2)c2.classList.add('show');},T0+1100);
   var cnt1=document.getElementById('cnt1');if(cnt1)countTo(cnt1,10,1000,T0+900);
   setTimeout(function(){var si=document.getElementById('scroll-ind');if(si){si.style.transition='opacity .5s';si.style.opacity='1';}},T0+1200);
+}else{
+  if(introEl){introEl.style.display='none';}
+  var n=document.getElementById('nav');if(n)n.classList.add('visible');
+  var b=document.getElementById('badge');if(b){b.style.opacity='1';b.style.transform='translateY(0)';}
+  ['hl1','hl2','hl3'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.transform='translateY(0)';}});
+  var hf=document.getElementById('hfoot');if(hf){hf.style.opacity='1';hf.style.transform='translateY(0)';}
+  var c1=document.getElementById('hcard1');if(c1)c1.classList.add('show');
+  var c2=document.getElementById('hcard2');if(c2)c2.classList.add('show');
+  var cnt1=document.getElementById('cnt1');if(cnt1)cnt1.textContent='10';
+  var si=document.getElementById('scroll-ind');if(si)si.style.opacity='1';
+  try{sessionStorage.setItem(introKey,'1');}catch(err){}
 }
 
 // ========== NAV SCROLL ==========
