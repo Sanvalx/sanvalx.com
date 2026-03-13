@@ -24,10 +24,10 @@ html.js #intro{position:fixed;inset:0;background:#000;z-index:5000;display:flex;
 nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 52px;z-index:600;transition:background .3s,opacity .4s,transform .4s;opacity:1;transform:none}
 html.js nav{opacity:0;transform:translateY(-10px)}
 nav.visible{opacity:1;transform:translateY(0)}
-nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
+nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b);opacity:1!important;transform:none!important;visibility:visible}
 .logo{font-family:var(--fd);font-weight:800;font-size:22px;color:var(--t);text-decoration:none;letter-spacing:-.5px}
 .logo span{color:var(--a)}
-.nl{display:flex;gap:40px;list-style:none;position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto}
+.nl{display:flex!important;gap:40px;list-style:none;position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto}
 .nl a{color:var(--m);text-decoration:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;transition:color .2s}
 .nl a:hover{color:var(--t)}
 .ncta{background:var(--a)!important;color:#060606!important;padding:10px 24px;border-radius:100px;font-weight:700!important}
