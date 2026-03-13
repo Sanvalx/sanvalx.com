@@ -187,3 +187,46 @@ if('IntersectionObserver' in window){
   // keep content visible instead of leaving reveal elements hidden.
   document.querySelectorAll('.r').forEach(function(el){el.classList.add('on');});
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Page Load Transition
+  requestAnimationFrame(() => {
+    document.body.classList.add('page-loaded');
+  });
+
+  // 2. Interceptar enlaces para salida fluida (Fade-out antes de navegar)
+  const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"])');
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetUrl = link.href;
+      document.body.classList.add('page-exit');
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 500); // Sincronizado con la transición CSS
+    });
+  });
+
+  // 3. Intersection Observer (Scroll Reveal)
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15 // El elemento aparece cuando el 15% es visible
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target); // Solo se anima una vez para mejorar rendimiento
+      }
+    });
+  }, observerOptions);
+
+  // Seleccionar dinámicamente elementos a animar
+  const elementsToReveal = document.querySelectorAll('h1, h2, .lbl, .pg .pi, .pi2, .about');
+  elementsToReveal.forEach(el => {
+    el.classList.add('reveal-up'); // Añadimos la clase base por JS para que no afecte si JS falla
+    observer.observe(el);
+  });
+});
