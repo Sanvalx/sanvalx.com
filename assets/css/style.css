@@ -282,6 +282,10 @@ h1 em, h2 em, .ttl em {
   opacity: 1;
   transform: translateY(0);
 }
+body.nosotros-page .reveal-up {
+  opacity: 1 !important;
+  transform: none !important;
+}
 
 /* 4. Efectos Hover Premium para CTAs */
 .bpri, .ncta {
