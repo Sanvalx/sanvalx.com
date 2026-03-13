@@ -27,12 +27,17 @@ nav.visible{opacity:1;transform:translateY(0)}
 nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
 .logo{font-family:var(--fd);font-weight:800;font-size:22px;color:var(--t);text-decoration:none;letter-spacing:-.5px}
 .logo span{color:var(--a)}
-.nl{display:flex;gap:40px;list-style:none}
+.nl{display:flex;gap:40px;list-style:none;position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto}
 .nl a{color:var(--m);text-decoration:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;transition:color .2s}
 .nl a:hover{color:var(--t)}
 .ncta{background:var(--a)!important;color:#060606!important;padding:10px 24px;border-radius:100px;font-weight:700!important}
 .menu-toggle{display:none;background:none;border:none;cursor:pointer;z-index:9999;position:relative;padding:10px;align-items:center;justify-content:center;flex-direction:column}
 .menu-toggle .bar{display:block;width:28px;height:2px;margin:6px auto;background:var(--t);transition:all .4s ease}
+
+@media(min-width:993px){
+  .menu-toggle{display:none!important}
+  .nl{position:static!important;transform:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;display:flex!important}
+}
 
 /* ---- HERO ---- */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 52px 88px;position:relative;overflow:hidden}
