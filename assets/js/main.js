@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', function(){
   var navLinks = document.querySelectorAll('.nl a');
   var mobileBreakpoint = 992;
 
+  // Estado seguro inicial para evitar pantallas bloqueadas/overlay pegado.
+  document.body.style.overflow = '';
+  if(navMenu){ navMenu.classList.remove('nav-active'); }
+  if(menuToggle){ menuToggle.classList.remove('is-active'); }
+
   if(menuToggle && navMenu){
     menuToggle.setAttribute('aria-expanded', 'false');
     menuToggle.setAttribute('aria-controls', navMenu.id || 'main-menu');
@@ -234,6 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.remove('page-exit');
   });
 
+  // Fail-safe: nunca dejar el contenido principal oculto.
+  document.querySelectorAll('.r').forEach(el => el.classList.add('on'));
+
   // 2. Interceptar enlaces para salida fluida (Fade-out antes de navegar)
   const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"])');
   links.forEach(link => {
@@ -286,6 +294,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.querySelectorAll('.reveal-up:not(.is-visible)').forEach(el => {
       el.classList.add('is-visible');
+    });
+    document.querySelectorAll('.r:not(.on)').forEach(el => {
+      el.classList.add('on');
     });
     document.body.classList.add('page-loaded');
   }, 900);
