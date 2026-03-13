@@ -294,3 +294,89 @@ h1 em, h2 em, .ttl em {
   box-shadow: 0 10px 20px rgba(200, 240, 74, 0.2); /* Resplandor sutil */
 }
 
+/* 1. Ocultar el botón en Desktop por defecto */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001; /* Debe estar por encima del overlay del menú */
+  position: relative;
+  padding: 10px;
+}
+.menu-toggle .bar {
+  display: block;
+  width: 28px;
+  height: 2px;
+  margin: 6px auto;
+  background-color: var(--m, #f0ede6);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 2. Responsive: Tablet y Mobile */
+@media (max-width: 992px) {
+  /* Mostrar el botón */
+  .menu-toggle {
+    display: block;
+  }
+  
+  /* Transformar la lista de navegación en un Overlay a pantalla completa */
+  .nl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(6, 6, 6, 0.98); /* Fondo oscuro casi sólido */
+    backdrop-filter: blur(10px);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    /* Animación de entrada fluida (oculto por defecto) */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1000;
+  }
+  
+  /* Ajuste tipográfico monumental para móvil */
+  .nl li {
+    margin: 0;
+  }
+  .nl li a {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    font-family: var(--fd, 'Syne', sans-serif);
+    color: var(--t, #f0ede6);
+  }
+  .nl li a.ncta {
+    font-size: 24px;
+    padding: 15px 35px;
+  }
+
+  /* 3. Clases Activas (cuando el menú está abierto) */
+  .nl.nav-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Animación del botón a 'X' */
+  .menu-toggle.is-active .bar:nth-child(2) {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  .menu-toggle.is-active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .menu-toggle.is-active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
