@@ -5,11 +5,24 @@ document.addEventListener('DOMContentLoaded', function(){
   var menuToggle = document.querySelector('.menu-toggle');
   var navMenu = document.querySelector('.nl');
   var navLinks = document.querySelectorAll('.nl a');
+  var mobileBreakpoint = 992;
 
   if(menuToggle && navMenu){
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-controls', navMenu.id || 'main-menu');
+    if(!navMenu.id){ navMenu.id = 'main-menu'; }
+
+    function closeMenu(){
+      menuToggle.classList.remove('is-active');
+      navMenu.classList.remove('nav-active');
+      document.body.style.overflow = '';
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
+
     menuToggle.addEventListener('click', function(){
       menuToggle.classList.toggle('is-active');
       navMenu.classList.toggle('nav-active');
+      menuToggle.setAttribute('aria-expanded', String(navMenu.classList.contains('nav-active')));
 
       if(navMenu.classList.contains('nav-active')){
         document.body.style.overflow = 'hidden';
@@ -20,10 +33,26 @@ document.addEventListener('DOMContentLoaded', function(){
 
     navLinks.forEach(function(link){
       link.addEventListener('click', function(){
-        menuToggle.classList.remove('is-active');
-        navMenu.classList.remove('nav-active');
-        document.body.style.overflow = '';
+        closeMenu();
       });
+    });
+
+    navMenu.addEventListener('click', function(e){
+      if(e.target === navMenu){
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && navMenu.classList.contains('nav-active')){
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', function(){
+      if(window.innerWidth > mobileBreakpoint){
+        closeMenu();
+      }
     });
   }
 });
