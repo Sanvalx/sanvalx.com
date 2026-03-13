@@ -26,6 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['ok' => false, 'error' => 'Método no permitido'], 405);
 }
 
+// Validación Honeypot: Si el campo oculto tiene datos, es un bot.
+if (!empty($_POST['website_url'])) {
+    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    if ($isAjax) {
+        json_response(['ok' => true, 'message' => 'Lead guardado correctamente']);
+    }
+    header('Location: /gracias.html');
+    exit;
+}
+
 $nombre = sanitize($_POST['nombre'] ?? '', 120);
 $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
 $urlNegocio = sanitize($_POST['url_negocio'] ?? '', 255);
