@@ -286,6 +286,16 @@ body.nosotros-page .reveal-up {
   opacity: 1 !important;
   transform: none !important;
 }
+body.nosotros-page,
+body.nosotros-page.page-loaded,
+body.nosotros-page.page-exit {
+  opacity: 1 !important;
+}
+body.nosotros-page .r,
+html.js body.nosotros-page .r {
+  opacity: 1 !important;
+  transform: none !important;
+}
 
 /* 4. Efectos Hover Premium para CTAs */
 .bpri, .ncta {
