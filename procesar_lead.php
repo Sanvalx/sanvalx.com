@@ -40,7 +40,11 @@ $nombre = sanitize($_POST['nombre'] ?? '', 120);
 $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
 $urlNegocio = sanitize($_POST['url_negocio'] ?? '', 255);
 $presupuesto = sanitize($_POST['presupuesto'] ?? '', 80);
+$telefono = sanitize($_POST['telefono'] ?? '', 80);
 $reto = sanitize($_POST['reto_principal'] ?? '', 2500);
+if ($telefono !== '') {
+    $reto .= "\nWhatsApp: " . $telefono;
+}
 
 if ($nombre === '' || $email === '' || $urlNegocio === '' || $presupuesto === '' || $reto === '') {
     json_response(['ok' => false, 'error' => 'Faltan campos obligatorios'], 400);
