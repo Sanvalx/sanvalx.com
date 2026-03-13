@@ -1,37 +1,30 @@
 document.documentElement.classList.add('js');
 
 // ========== MENU TOGGLE (GLOBAL) ==========
-(function(){
-  var nav = document.getElementById('nav');
+document.addEventListener('DOMContentLoaded', function(){
   var menuToggle = document.querySelector('.menu-toggle');
   var navMenu = document.querySelector('.nl');
   var navLinks = document.querySelectorAll('.nl li a');
   var mobileBreakpoint = 992;
 
-  function setMenuState(isOpen){
-    if(menuToggle){
-      menuToggle.classList.toggle('is-active', isOpen);
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-    }
-    if(navMenu){
-      navMenu.classList.toggle('nav-active', isOpen);
-    }
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  }
-
-  function closeMenu(){
-    setMenuState(false);
-  }
-
   if(menuToggle && navMenu){
     menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.setAttribute('aria-controls', 'main-menu');
-    if(!navMenu.id){
-      navMenu.id = 'main-menu';
+    menuToggle.setAttribute('aria-controls', navMenu.id || 'main-menu');
+    if(!navMenu.id){ navMenu.id = 'main-menu'; }
+
+    function closeMenu(){
+      menuToggle.classList.remove('is-active');
+      navMenu.classList.remove('nav-active');
+      document.body.style.overflow = '';
+      menuToggle.setAttribute('aria-expanded', 'false');
     }
 
     menuToggle.addEventListener('click', function(){
-      setMenuState(!navMenu.classList.contains('nav-active'));
+      menuToggle.classList.toggle('is-active');
+      navMenu.classList.toggle('nav-active');
+      var isOpen = navMenu.classList.contains('nav-active');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
     });
 
     navLinks.forEach(function(link){
@@ -47,7 +40,7 @@ document.documentElement.classList.add('js');
     });
 
     document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && navMenu.classList.contains('nav-active')){
+      if(e.key === 'Escape'){
         closeMenu();
       }
     });
@@ -58,7 +51,7 @@ document.documentElement.classList.add('js');
       }
     });
   }
-})();
+});
 
 // ========== CURSOR ==========
 var C = document.getElementById('C');
