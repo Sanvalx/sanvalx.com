@@ -1,4 +1,14 @@
 document.documentElement.classList.add('js');
+if(document.body){
+  document.body.classList.add('page-loaded');
+  document.body.classList.remove('page-exit');
+}
+window.addEventListener('pageshow', function(){
+  if(document.body){
+    document.body.classList.add('page-loaded');
+    document.body.classList.remove('page-exit');
+  }
+});
 
 // ========== MENU TOGGLE (GLOBAL) ==========
 document.addEventListener('DOMContentLoaded', function(){
@@ -221,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Page Load Transition
   requestAnimationFrame(() => {
     document.body.classList.add('page-loaded');
+    document.body.classList.remove('page-exit');
   });
 
   // 2. Interceptar enlaces para salida fluida (Fade-out antes de navegar)
@@ -243,19 +254,39 @@ document.addEventListener('DOMContentLoaded', () => {
     threshold: 0.15 // El elemento aparece cuando el 15% es visible
   };
 
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target); // Solo se anima una vez para mejorar rendimiento
-      }
-    });
-  }, observerOptions);
-
   // Seleccionar dinámicamente elementos a animar
   const elementsToReveal = document.querySelectorAll('h1, h2, .lbl, .pg .pi, .pi2, .about');
   elementsToReveal.forEach(el => {
     el.classList.add('reveal-up'); // Añadimos la clase base por JS para que no afecte si JS falla
-    observer.observe(el);
   });
+
+  // Fallback robusto: si IntersectionObserver no está disponible o falla,
+  // mostramos el contenido para evitar pantallas "negras".
+  if ('IntersectionObserver' in window) {
+    try {
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); // Solo se anima una vez para mejorar rendimiento
+          }
+        });
+      }, observerOptions);
+
+      elementsToReveal.forEach(el => observer.observe(el));
+    } catch (e) {
+      elementsToReveal.forEach(el => el.classList.add('is-visible'));
+    }
+  } else {
+    elementsToReveal.forEach(el => el.classList.add('is-visible'));
+  }
+
+  // Watchdog anti-pantalla negra:
+  // si algún reveal no se activó por condiciones de render/dispositivo, lo mostramos.
+  setTimeout(() => {
+    document.querySelectorAll('.reveal-up:not(.is-visible)').forEach(el => {
+      el.classList.add('is-visible');
+    });
+    document.body.classList.add('page-loaded');
+  }, 900);
 });
