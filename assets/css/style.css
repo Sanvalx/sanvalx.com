@@ -201,7 +201,7 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
 .fcopy{color:var(--m);font-size:11px}
 /* Reveal elements stay visible by default; JS mode enables animated reveal. */
 .r{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
-html.js .r{opacity:0;transform:translateY(38px)}
+html.js .r{opacity:1;transform:none}
 .r.on{opacity:1;transform:translateY(0)}
 /* WhatsApp floating */
 .wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#25d366;color:#060606;z-index:700;box-shadow:0 10px 32px rgba(0,0,0,.35);transition:transform .2s,box-shadow .25s}
@@ -278,8 +278,8 @@ h1 em, h2 em, .ttl em {
 
 /* 3. Sistema de Scroll Reveal (Aparición fluida) */
 .reveal-up {
-  opacity: 0;
-  transform: translateY(50px);
+  opacity: 1;
+  transform: none;
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
