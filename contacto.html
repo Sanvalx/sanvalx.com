@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicia tu Escalado Digital | Contacto SANVALX</title>
+  <meta name="description" content="Inicia tu Escalado Digital | Contacto SANVALX">
+  <meta property="og:title" content="Inicia tu Escalado Digital | Contacto SANVALX">
+  <meta property="og:description" content="Cuéntanos tu reto y diseñamos el plan de escalado contigo.">
+  <meta property="og:type" content="website">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260311">
+</head>
+<body>
+<div id="C"></div><div id="F"></div>
+<nav id="nav" class="visible solid">
+  <a href="/" class="logo">SANVAL<span>X</span></a>
+  <button class="menu-toggle" aria-label="Abrir menú"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+  <ul class="nl">
+    <li><a href="/servicios.html">Servicios</a></li>
+    <li><a href="/metodo.html">El Método</a></li>
+    <li><a href="/proyectos.html">Proyectos</a></li>
+    <li><a href="/nosotros.html">Nosotros</a></li>
+    <li><a href="/contacto.html" class="ncta">Hablemos</a></li>
+  </ul>
+</nav>
+
+<section class="sec" style="padding-top:150px">
+  <div class="lbl r">Contacto</div>
+  <h1 class="ttl r">Hablemos de tu <em>crecimiento</em>.</h1>
+  <div class="form-shell r">
+    <form class="form-grid" action="procesar_lead.php" method="POST">
+      <div style="position: absolute; left: -5000px; top: -5000px;" aria-hidden="true">
+        <label for="website_url">Leave this field blank</label>
+        <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="fg">
+        <label for="nombre">Nombre y apellido</label>
+        <input id="nombre" name="nombre" type="text" required>
+      </div>
+      <div class="fg">
+        <label for="email">Email de contacto</label>
+        <input id="email" name="email" type="email" required>
+      </div>
+      <div class="fg">
+        <label for="presupuesto">Presupuesto mensual estimado</label>
+        <select id="presupuesto" name="presupuesto" required>
+          <option value="">Selecciona</option>
+          <option>1.000€ - 3.000€</option>
+          <option>3.000€ - 8.000€</option>
+          <option>8.000€ - 15.000€</option>
+          <option>20.000€+</option>
+        </select>
+      </div>
+      <div class="fg full">
+        <label for="reto_principal">Objetivo principal</label>
+        <textarea id="reto_principal" name="reto_principal" required placeholder="Ej: bajar CPA y aumentar conversiones"></textarea>
+      </div>
+      <input type="hidden" name="url_negocio" value="No especificada">
+      <div class="fg full">
+        <button class="bpri" type="submit">Solicitar diagnóstico</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">SANVAL<span>X</span></div>
+  <div class="flinks"><a href="/servicios.html">Servicios</a><a href="/metodo.html">El Método</a><a href="/proyectos.html">Proyectos</a><a href="/nosotros.html">Nosotros</a><a href="/contacto.html">Hablemos</a><a href="/politicas/privacidad.html">Privacidad</a><a href="/politicas/aviso-legal.html">Aviso legal</a><a href="/politicas/cookies.html">Cookies</a></div>
+  <div class="fcopy">&copy; 2025 SANVALX &middot; Madrid</div>
+</footer>
+<a class="wa-float" href="https://wa.me/34600000000" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.85 11.85 0 0012.07 0C5.48 0 .12 5.36.12 11.95c0 2.1.55 4.14 1.6 5.95L0 24l6.27-1.64a11.92 11.92 0 005.8 1.48h.01c6.58 0 11.94-5.36 11.94-11.95 0-3.19-1.24-6.18-3.5-8.41z"/></svg></a>
+<script src="assets/js/main.js?v=20260311"></script>
+</body>
+</html>

@@ -13,3 +13,17 @@ CREATE TABLE IF NOT EXISTS contactos (
   INDEX idx_creado (creado),
   INDEX idx_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabla de leads High-Ticket
+CREATE TABLE IF NOT EXISTS leads (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(120) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  url_negocio VARCHAR(255) NOT NULL,
+  presupuesto VARCHAR(80) NOT NULL,
+  reto_principal TEXT NOT NULL,
+  ip VARCHAR(45) DEFAULT NULL,
+  creado DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_leads_creado (creado),
+  INDEX idx_leads_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
