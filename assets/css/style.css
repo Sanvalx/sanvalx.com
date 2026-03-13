@@ -31,8 +31,8 @@ nav.solid{background:rgba(6,6,6,.97);border-bottom:1px solid var(--b)}
 .nl a{color:var(--m);text-decoration:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;transition:color .2s}
 .nl a:hover{color:var(--t)}
 .ncta{background:var(--a)!important;color:#060606!important;padding:10px 24px;border-radius:100px;font-weight:700!important}
-.menu-toggle{display:none;width:44px;height:44px;border:1px solid var(--b);border-radius:10px;background:rgba(6,6,6,.92);align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer}
-.menu-toggle .bar{width:18px;height:2px;background:var(--t);transition:transform .25s,opacity .2s}
+.menu-toggle{display:none;background:none;border:none;cursor:pointer;z-index:9999;position:relative;padding:10px;align-items:center;justify-content:center;flex-direction:column}
+.menu-toggle .bar{display:block;width:28px;height:2px;margin:6px auto;background:var(--t);transition:all .4s ease}
 
 /* ---- HERO ---- */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 52px 88px;position:relative;overflow:hidden}
@@ -213,13 +213,13 @@ html.js .r{opacity:0;transform:translateY(38px)}
 
 @media(max-width:992px){
   nav{padding:18px 22px}
-  .menu-toggle{display:flex}
-  .nl{position:fixed;inset:0;background:rgba(6,6,6,.95);backdrop-filter:blur(8px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:26px;transform:translateY(-100%);transition:transform .35s ease;z-index:590}
+  .menu-toggle{display:flex;z-index:9999}
+  .nl{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(6,6,6,.98);backdrop-filter:blur(10px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:40px;transform:translateY(-100%);transition:transform .4s ease;z-index:9998}
   .nl a{font-size:17px;letter-spacing:.08em}
-  nav.nav-active .nl{transform:translateY(0)}
-  .menu-toggle.toggle-active .bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
-  .menu-toggle.toggle-active .bar:nth-child(2){opacity:0}
-  .menu-toggle.toggle-active .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nl.nav-active{transform:translateY(0)}
+  .menu-toggle.is-active .bar:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  .menu-toggle.is-active .bar:nth-child(2){opacity:0}
+  .menu-toggle.is-active .bar:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
   .hero{padding:0 22px 60px}
   .hfoot{flex-direction:column;gap:28px;align-items:flex-start}
   .hero h1{font-size:clamp(42px,14vw,72px);letter-spacing:-2px;line-height:.92}
@@ -294,89 +294,4 @@ h1 em, h2 em, .ttl em {
   box-shadow: 0 10px 20px rgba(200, 240, 74, 0.2); /* Resplandor sutil */
 }
 
-/* 1. Ocultar el botón en Desktop por defecto */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 1001; /* Debe estar por encima del overlay del menú */
-  position: relative;
-  padding: 10px;
-}
-.menu-toggle .bar {
-  display: block;
-  width: 28px;
-  height: 2px;
-  margin: 6px auto;
-  background-color: var(--m, #f0ede6);
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-/* 2. Responsive: Tablet y Mobile */
-@media (max-width: 992px) {
-  /* Mostrar el botón */
-  .menu-toggle {
-    display: block;
-  }
-  
-  /* Transformar la lista de navegación en un Overlay a pantalla completa */
-  .nl {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(6, 6, 6, 0.98); /* Fondo oscuro casi sólido */
-    backdrop-filter: blur(10px);
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    margin: 0;
-    padding: 0;
-    /* Animación de entrada fluida (oculto por defecto) */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-20px);
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 1000;
-  }
-  
-  /* Ajuste tipográfico monumental para móvil */
-  .nl li {
-    margin: 0;
-  }
-  .nl li a {
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    font-family: var(--fd, 'Syne', sans-serif);
-    color: var(--t, #f0ede6);
-  }
-  .nl li a.ncta {
-    font-size: 24px;
-    padding: 15px 35px;
-  }
-
-  /* 3. Clases Activas (cuando el menú está abierto) */
-  .nl.nav-active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  /* Animación del botón a 'X' */
-  .menu-toggle.is-active .bar:nth-child(2) {
-    opacity: 0;
-    transform: translateX(10px);
-  }
-  .menu-toggle.is-active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-  }
-  .menu-toggle.is-active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-  }
-}
 
