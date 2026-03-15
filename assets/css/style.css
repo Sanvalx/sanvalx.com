@@ -3,6 +3,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t);font-family:var(--fb);overflow-x:hidden;cursor:auto}
 html.js body{cursor:none}
+html{-webkit-text-size-adjust:100%}
 
 /* ---- CURSOR ---- */
 #C,#F{position:fixed;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9999;opacity:0}
@@ -357,6 +358,30 @@ body.contacto-page .reveal-up {
     max-width:100%!important;
     margin-left:0!important;
     margin-right:0!important;
+  }
+}
+
+/* iOS Safari hardening */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    min-height: -webkit-fill-available;
+  }
+  @media (max-width: 992px) {
+    .nl {
+      height: 100svh;
+      min-height: -webkit-fill-available;
+      padding-top: calc(env(safe-area-inset-top) + 12px);
+      padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+    }
+    nav {
+      padding-top: calc(env(safe-area-inset-top) + 12px);
+      padding-left: max(22px, env(safe-area-inset-left));
+      padding-right: max(22px, env(safe-area-inset-right));
+    }
+    .wa-float {
+      right: max(22px, env(safe-area-inset-right));
+      bottom: max(22px, env(safe-area-inset-bottom));
+    }
   }
 }
 
