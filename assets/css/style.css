@@ -240,9 +240,9 @@ html.js .r{opacity:1;transform:none}
   .about{grid-template-columns:1fr;gap:34px}
   .av{max-width:100%;margin:0 auto}
   .aiw{aspect-ratio:16/10}
-  .a-roles{flex-direction:column;gap:18px;margin-top:28px}
+  .a-roles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
   .adiv{display:none}
-  .ar-n{font-size:clamp(28px,9vw,40px);line-height:1.05}
+  .ar-n{font-size:clamp(24px,6vw,32px);line-height:1.05}
   .ab-badge{position:static;display:inline-block;margin-top:14px;padding:14px 18px;font-size:12px;max-width:100%}
   .pg2{grid-template-columns:1fr}
   .pi2:first-child{grid-column:span 1}
