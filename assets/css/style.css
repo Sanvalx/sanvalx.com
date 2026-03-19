@@ -3,6 +3,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t);font-family:var(--fb);overflow-x:hidden;cursor:auto}
 html.js body{cursor:none}
+html{-webkit-text-size-adjust:100%}
 
 /* ---- CURSOR ---- */
 #C,#F{position:fixed;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9999;opacity:0}
@@ -219,9 +220,9 @@ html.js .r{opacity:1;transform:none}
 @media(max-width:992px){
   nav{padding:18px 22px}
   .menu-toggle{display:flex;z-index:9999}
-  .nl{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(6,6,6,.98);backdrop-filter:blur(10px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:40px;transform:translateY(-100%);opacity:0;pointer-events:none;transition:transform .4s ease,opacity .3s ease;z-index:9998}
+  .nl{display:none!important;position:fixed;top:0;left:0;width:100vw;height:100vh;margin:0;padding:0;list-style:none;background:rgba(6,6,6,.98);backdrop-filter:blur(10px);flex-direction:column;justify-content:center;align-items:center;gap:40px;z-index:9998}
   .nl a{font-size:17px;letter-spacing:.08em}
-  .nl.nav-active{transform:translateY(0);opacity:1;pointer-events:auto}
+  .nl.nav-active{display:flex!important}
   .menu-toggle.is-active .bar:nth-child(1){transform:translateY(8px) rotate(45deg)}
   .menu-toggle.is-active .bar:nth-child(2){opacity:0}
   .menu-toggle.is-active .bar:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
@@ -236,8 +237,13 @@ html.js .r{opacity:1;transform:none}
   .sec,.about,.proc,.cta,.testi{padding:80px 22px}
   .svc,.pg,.tg2{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr 1fr}
-  .about{grid-template-columns:1fr}
-  .ab-badge{position:static;display:inline-block;margin-top:14px}
+  .about{grid-template-columns:1fr;gap:34px}
+  .av{max-width:100%;margin:0 auto}
+  .aiw{aspect-ratio:16/10}
+  .a-roles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .adiv{display:none}
+  .ar-n{font-size:clamp(24px,6vw,32px);line-height:1.05}
+  .ab-badge{position:static;display:inline-block;margin-top:14px;padding:14px 18px;font-size:12px;max-width:100%}
   .pg2{grid-template-columns:1fr}
   .pi2:first-child{grid-column:span 1}
   .pi2-info{opacity:1}
@@ -301,6 +307,17 @@ html.js body.nosotros-page .r {
   opacity: 1 !important;
   transform: none !important;
 }
+body.contacto-page,
+body.contacto-page.page-loaded,
+body.contacto-page.page-exit {
+  opacity: 1 !important;
+}
+body.contacto-page .r,
+html.js body.contacto-page .r,
+body.contacto-page .reveal-up {
+  opacity: 1 !important;
+  transform: none !important;
+}
 
 /* 4. Efectos Hover Premium para CTAs */
 .bpri, .ncta {
@@ -322,6 +339,55 @@ html.js body.nosotros-page .r {
 }
 @media (max-width: 992px){
   #nav .menu-toggle{display:flex!important}
+}
+
+/* Mobile layout safety: prevent narrow-column rendering */
+@media (max-width: 992px){
+  html,body{
+    width:100%;
+    min-width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
+  body{
+    display:block!important;
+  }
+  #nav{
+    left:0!important;
+    right:0!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+  .hero,.sec,.mq,.proc,.stats,.about,.testi,.cta,footer{
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+}
+
+/* iOS Safari hardening */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    min-height: -webkit-fill-available;
+  }
+  @media (max-width: 992px) {
+    .nl {
+      height: 100svh;
+      min-height: -webkit-fill-available;
+      padding-top: calc(env(safe-area-inset-top) + 12px);
+      padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+    }
+    nav {
+      padding-top: calc(env(safe-area-inset-top) + 12px);
+      padding-left: max(22px, env(safe-area-inset-left));
+      padding-right: max(22px, env(safe-area-inset-right));
+    }
+    .wa-float {
+      right: max(22px, env(safe-area-inset-right));
+      bottom: max(22px, env(safe-area-inset-bottom));
+    }
+  }
 }
 
 
