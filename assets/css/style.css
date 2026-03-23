@@ -225,6 +225,21 @@ html.js .r{opacity:1;transform:none}
 .fg input,.fg select,.fg textarea{width:100%;border:1px solid var(--b);background:#0a0a0a;color:var(--t);border-radius:10px;padding:12px 14px;font-family:var(--fb)}
 .fg textarea{min-height:140px;resize:vertical}
 
+/* Página gracias */
+.gracias-sec{padding-top:150px;padding-bottom:100px}
+.gracias-ttl{margin-bottom:20px}
+.gracias-lead{color:#c6c6c6;max-width:640px;margin:0 0 32px;font-size:17px;line-height:1.55}
+.gracias-lead strong{color:var(--t);font-weight:600}
+.thanks-card{max-width:640px;text-align:left}
+.thanks-h2{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--m);margin:0 0 16px}
+.thanks-list{margin:0 0 20px;padding:0;list-style:none}
+.thanks-list li{position:relative;padding-left:22px;margin-bottom:12px;color:#c6c6c6;font-size:15px;line-height:1.55}
+.thanks-list li::before{content:'';position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--a)}
+.thanks-list strong{color:var(--t);font-weight:600}
+.thanks-note{color:var(--m);font-size:14px;line-height:1.55;margin:0 0 8px}
+.thanks-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:22px}
+.thanks-actions .bpri{position:relative}
+
 @media(max-width:992px){
   nav{padding:18px 22px}
   .menu-toggle{display:flex;z-index:9999}
