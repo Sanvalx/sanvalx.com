@@ -56,16 +56,22 @@ if (!empty($_POST['website_url'])) {
 
 $nombre = sanitize($_POST['nombre'] ?? '', 120);
 $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
-$urlNegocio = sanitize($_POST['url_negocio'] ?? '', 255);
-$presupuesto = sanitize($_POST['presupuesto'] ?? '', 80);
+$empresa = sanitize($_POST['empresa'] ?? '', 255);
+$whatsapp = sanitize($_POST['whatsapp'] ?? '', 40);
 $reto = sanitize($_POST['reto_principal'] ?? '', 2500);
 
 if (!isset($_POST['privacidad']) || $_POST['privacidad'] !== '1') {
     respond_error('Debes aceptar la política de privacidad.', 400, 'privacidad');
 }
 
-if ($nombre === '' || $email === '' || $urlNegocio === '' || $presupuesto === '' || $reto === '') {
+if ($nombre === '' || $email === '' || $reto === '') {
     respond_error('Faltan campos obligatorios.', 400, 'validacion');
+}
+
+$urlNegocio = $empresa !== '' ? $empresa : '—';
+$presupuesto = '—';
+if ($whatsapp !== '') {
+    $reto .= "\n\nWhatsApp: " . $whatsapp;
 }
 
 $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
