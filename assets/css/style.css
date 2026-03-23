@@ -217,6 +217,7 @@ html.js .r{opacity:1;transform:none}
 .fg.full{grid-column:1/-1}
 .fg label{font-size:12px;color:var(--m);letter-spacing:.08em;text-transform:uppercase}
 .fg .req{color:#c8f04a;font-weight:700;margin-left:2px}
+.fg .opt{color:var(--m);font-weight:400;font-size:11px;text-transform:none;letter-spacing:0.04em}
 .fg-check{margin-top:4px}
 .fg label.fg-check-label{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--t);text-transform:none;letter-spacing:normal;line-height:1.45;cursor:pointer}
 .fg-check-label input[type=checkbox]{margin-top:4px;flex-shrink:0;width:18px;height:18px;accent-color:#c8f04a}
