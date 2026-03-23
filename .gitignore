@@ -19,6 +19,7 @@ Thumbs.db
 # Entornos / secretos opcionales
 .env
 .env.local
+config.php
 
 # Archivos temporales
 *.tmp
