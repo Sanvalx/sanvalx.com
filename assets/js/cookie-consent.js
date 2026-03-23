@@ -1,11 +1,22 @@
 /**
- * Consentimiento cookies SANVALX.
- * Rellena los IDs abajo o define window.SANVALX_COOKIE_CONFIG antes de este script.
+ * Consentimiento cookies SANVALX
+ *
+ * RECOMENDADO — Google Tag Manager (mide todo desde un solo sitio):
+ *   SANVALX_DEFAULTS.gtmId = 'GTM-XXXXXXX';
+ * En tagmanager.google.com añade etiquetas: GA4, Google Ads, Meta Pixel,
+ * LinkedIn Insight, Microsoft Clarity, etc.
+ *
+ * ALTERNATIVA — sin GTM (solo si dejas gtmId vacío):
+ *   clarityId, gaMeasurementId, metaPixelId
+ *
+ * También puedes usar window.SANVALX_COOKIE_CONFIG antes de cargar este script.
  */
 (function () {
   var STORAGE_KEY = 'sanvalx_cookies';
 
   var SANVALX_DEFAULTS = {
+    /** Contenedor GTM: GA4, Ads, Meta, LinkedIn, Clarity… se configuran dentro de GTM */
+    gtmId: '',
     clarityId: '',
     gaMeasurementId: '',
     metaPixelId: ''
@@ -14,10 +25,35 @@
   function cfg() {
     var w = window.SANVALX_COOKIE_CONFIG || {};
     return {
+      gtmId: w.gtmId || SANVALX_DEFAULTS.gtmId,
       clarityId: w.clarityId || SANVALX_DEFAULTS.clarityId,
       gaMeasurementId: w.gaMeasurementId || SANVALX_DEFAULTS.gaMeasurementId,
       metaPixelId: w.metaPixelId || SANVALX_DEFAULTS.metaPixelId
     };
+  }
+
+  function injectGTM(containerId) {
+    if (!containerId || typeof containerId !== 'string') return;
+    var id = containerId.replace(/^\s+|\s+$/g, '');
+    if (!id.toUpperCase().startsWith('GTM-')) return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'sanvalx_cookie_consent',
+      sanvalx_consent: 'granted',
+      marketing_consent: 'granted',
+      analytics_consent: 'granted'
+    });
+    window.dataLayer.push({
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js'
+    });
+
+    var j = document.createElement('script');
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(id);
+    var first = document.getElementsByTagName('script')[0];
+    first.parentNode.insertBefore(j, first);
   }
 
   function injectClarity(projectId) {
@@ -83,9 +119,13 @@
 
   function applyAccepted() {
     var c = cfg();
-    injectClarity(c.clarityId);
-    injectGA(c.gaMeasurementId);
-    injectMetaPixel(c.metaPixelId);
+    if (c.gtmId) {
+      injectGTM(c.gtmId);
+    } else {
+      injectClarity(c.clarityId);
+      injectGA(c.gaMeasurementId);
+      injectMetaPixel(c.metaPixelId);
+    }
     try {
       window.dispatchEvent(new CustomEvent('sanvalx:cookieConsent', { detail: { status: 'accepted' } }));
     } catch (e) {}
@@ -122,7 +162,7 @@
     var wrap = document.createElement('div');
     wrap.id = 'cookie-banner';
     wrap.innerHTML =
-      '<p>Usamos cookies de <strong>Google Analytics</strong>, <strong>Meta Pixel</strong> y, si aceptas, <strong>Microsoft Clarity</strong> (mapas de calor y sesiones) para mejorar el sitio y medir campañas. Consulta la <a href="/politicas/cookies.html">Política de Cookies</a> y la <a href="/politicas/privacidad.html">Política de Privacidad</a>.</p>' +
+      '<p>Con tu consentimiento cargamos <strong>Google Tag Manager</strong> para medir el uso del sitio (p. ej. <strong>Analytics</strong>, <strong>Google Ads</strong>, <strong>Meta</strong>, <strong>LinkedIn</strong>, mapas de calor, etc. según lo configures). Consulta la <a href="/politicas/cookies.html">Política de Cookies</a> y la <a href="/politicas/privacidad.html">Política de Privacidad</a>.</p>' +
       '<div class="cookie-btns">' +
       '<button type="button" class="cookie-btn-reject" id="cookie-reject">Rechazar</button>' +
       '<button type="button" class="cookie-btn-accept" id="cookie-accept">Aceptar</button>' +
