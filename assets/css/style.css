@@ -205,7 +205,8 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
 html.js .r{opacity:1;transform:none}
 .r.on{opacity:1;transform:translateY(0)}
 /* WhatsApp floating */
-.wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#25d366;color:#060606;z-index:700;box-shadow:0 10px 32px rgba(0,0,0,.35);transition:transform .2s,box-shadow .25s}
+.wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#25d366;color:#fff;z-index:700;box-shadow:0 10px 32px rgba(0,0,0,.35);transition:transform .2s,box-shadow .25s}
+.wa-float svg{display:block}
 .wa-float:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.45)}
 
 /* Forms */
