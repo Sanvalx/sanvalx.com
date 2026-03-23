@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS contactos (
   INDEX idx_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabla de leads High-Ticket
+-- Tabla de leads (contacto). url_negocio almacena empresa/emprendimiento; presupuesto puede quedar "—" si no se usa.
 CREATE TABLE IF NOT EXISTS leads (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(120) NOT NULL,
