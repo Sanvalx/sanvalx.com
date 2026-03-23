@@ -233,6 +233,31 @@ if('IntersectionObserver' in window){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (document.body.classList.contains('contacto-page')) {
+    var params = new URLSearchParams(window.location.search);
+    var code = params.get('e');
+    if (code) {
+      var messages = {
+        validacion: 'Revisa los campos obligatorios (marcados con asterisco) y vuelve a enviar.',
+        servidor: 'No pudimos registrar tu solicitud. Inténtalo en unos minutos o escríbenos por WhatsApp.',
+        privacidad: 'Debes aceptar la política de privacidad para continuar.',
+        config: 'El formulario no está disponible temporalmente. Por favor contacta por otro canal.'
+      };
+      var text = messages[code] || messages.servidor;
+      var banner = document.createElement('div');
+      banner.className = 'form-error-banner';
+      banner.setAttribute('role', 'alert');
+      banner.textContent = text;
+      var shell = document.querySelector('.form-shell');
+      if (shell) {
+        shell.insertBefore(banner, shell.firstChild);
+      }
+      try {
+        window.history.replaceState({}, '', '/contacto.html');
+      } catch (err) {}
+    }
+  }
+
   // 1. Page Load Transition
   requestAnimationFrame(() => {
     document.body.classList.add('page-loaded');
