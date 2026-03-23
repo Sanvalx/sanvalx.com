@@ -1,15 +1,6 @@
 <?php
 declare(strict_types=1);
 
-// Configuración DB (Hostinger)
-$DB_HOST = 'localhost';
-$DB_NAME = 'u636621141_9TsyO';
-$DB_USER = 'u636621141_Tg6BM';
-$DB_PASS = 'TU_PASSWORD';
-
-// Webhook (Make)
-$WEBHOOK_URL = 'https://hook.eu1.make.com/...';
-
 function sanitize(string $v, int $max = 500): string {
     $v = trim(strip_tags($v));
     return mb_substr($v, 0, $max);
@@ -22,17 +13,44 @@ function json_response(array $payload, int $status = 200): void {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    json_response(['ok' => false, 'error' => 'Método no permitido'], 405);
+function is_ajax_request(): bool {
+    return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 }
 
-// Validación Honeypot: Si el campo oculto tiene datos, es un bot.
+function respond_error(string $message, int $httpCode, string $redirectCode): void {
+    if (is_ajax_request()) {
+        json_response(['ok' => false, 'error' => $message], $httpCode);
+    }
+    http_response_code(303);
+    header('Location: /contacto.html?e=' . rawurlencode($redirectCode));
+    exit;
+}
+
+$configPath = __DIR__ . '/config.php';
+if (!is_file($configPath)) {
+    error_log('procesar_lead.php: falta config.php (copia config.example.php).');
+    respond_error('Configuración del servidor incompleta.', 503, 'config');
+}
+
+$config = require $configPath;
+
+foreach (['db_host', 'db_name', 'db_user', 'db_pass'] as $key) {
+    if (!isset($config[$key]) || !is_string($config[$key])) {
+        error_log('procesar_lead.php: falta la clave de configuración: ' . $key);
+        respond_error('Configuración del servidor incompleta.', 503, 'config');
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respond_error('Método no permitido', 405, 'servidor');
+}
+
 if (!empty($_POST['website_url'])) {
-    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    if ($isAjax) {
+    if (is_ajax_request()) {
         json_response(['ok' => true, 'message' => 'Lead guardado correctamente']);
     }
-    header('Location: /gracias.html');
+    header('Location: /gracias.html', true, 303);
     exit;
 }
 
@@ -40,21 +58,23 @@ $nombre = sanitize($_POST['nombre'] ?? '', 120);
 $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '';
 $urlNegocio = sanitize($_POST['url_negocio'] ?? '', 255);
 $presupuesto = sanitize($_POST['presupuesto'] ?? '', 80);
-$telefono = sanitize($_POST['telefono'] ?? '', 80);
 $reto = sanitize($_POST['reto_principal'] ?? '', 2500);
-if ($telefono !== '') {
-    $reto .= "\nWhatsApp: " . $telefono;
+
+if (!isset($_POST['privacidad']) || $_POST['privacidad'] !== '1') {
+    respond_error('Debes aceptar la política de privacidad.', 400, 'privacidad');
 }
 
 if ($nombre === '' || $email === '' || $urlNegocio === '' || $presupuesto === '' || $reto === '') {
-    json_response(['ok' => false, 'error' => 'Faltan campos obligatorios'], 400);
+    respond_error('Faltan campos obligatorios.', 400, 'validacion');
 }
+
+$remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
 
 try {
     $pdo = new PDO(
-        "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4",
-        $DB_USER,
-        $DB_PASS,
+        'mysql:host=' . $config['db_host'] . ';dbname=' . $config['db_name'] . ';charset=utf8mb4',
+        $config['db_user'],
+        $config['db_pass'],
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -62,7 +82,7 @@ try {
         ]
     );
 
-    $sql = "INSERT INTO leads (nombre, email, url_negocio, presupuesto, reto_principal, ip, creado) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+    $sql = 'INSERT INTO leads (nombre, email, url_negocio, presupuesto, reto_principal, ip, creado) VALUES (?, ?, ?, ?, ?, ?, NOW())';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         $nombre,
@@ -70,38 +90,15 @@ try {
         $urlNegocio,
         $presupuesto,
         $reto,
-        $_SERVER['REMOTE_ADDR'] ?? null
+        $remoteAddr !== '' ? $remoteAddr : null,
     ]);
 
-    $payload = [
-        'nombre' => $nombre,
-        'email' => $email,
-        'url_negocio' => $urlNegocio,
-        'presupuesto' => $presupuesto,
-        'reto_principal' => $reto,
-        'fecha' => date('c')
-    ];
-
-    // Envío al webhook (no bloqueante de forma estricta)
-    $ch = curl_init($WEBHOOK_URL);
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 10
-    ]);
-    curl_exec($ch);
-    curl_close($ch);
-
-    // Si viene por fetch/XHR devolvemos JSON, si no redirigimos
-    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    if ($isAjax) {
+    if (is_ajax_request()) {
         json_response(['ok' => true, 'message' => 'Lead guardado correctamente']);
     }
-    header('Location: /gracias.html');
+    header('Location: /gracias.html', true, 303);
     exit;
 } catch (Throwable $e) {
     error_log('Error procesar_lead.php: ' . $e->getMessage());
-    json_response(['ok' => false, 'error' => 'No se pudo procesar el lead'], 500);
+    respond_error('No se pudo procesar el lead.', 500, 'servidor');
 }
