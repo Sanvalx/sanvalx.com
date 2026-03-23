@@ -9,7 +9,7 @@
   <meta property="og:description" content="Cuéntanos tu reto y diseñamos el plan de escalado contigo.">
   <meta property="og:type" content="website">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20260323">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260324">
 </head>
 <body class="contacto-page">
 <div id="C"></div><div id="F"></div>
@@ -36,26 +36,24 @@
         <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
       </div>
       <div class="fg">
-        <label for="nombre">Nombre y apellido <span class="req" aria-hidden="true">*</span></label>
-        <input id="nombre" name="nombre" type="text" required maxlength="120" autocomplete="name" inputmode="text" aria-required="true">
+        <label for="nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
+        <input id="nombre" name="nombre" type="text" required maxlength="120" autocomplete="name" aria-required="true">
       </div>
       <div class="fg">
-        <label for="email">Email de contacto <span class="req" aria-hidden="true">*</span></label>
+        <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
         <input id="email" name="email" type="email" required maxlength="255" autocomplete="email" inputmode="email" aria-required="true">
       </div>
       <div class="fg">
-        <label for="presupuesto">Presupuesto mensual estimado <span class="req" aria-hidden="true">*</span></label>
-        <select id="presupuesto" name="presupuesto" required aria-required="true">
-          <option value="">Selecciona</option>
-          <option>1.000€ - 3.000€</option>
-          <option>3.000€ - 8.000€</option>
-          <option>8.000€ - 15.000€</option>
-          <option>20.000€+</option>
-        </select>
+        <label for="whatsapp">WhatsApp <span class="opt">(opcional)</span></label>
+        <input id="whatsapp" name="whatsapp" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" placeholder="Ej: +34 600 000 000">
+      </div>
+      <div class="fg">
+        <label for="empresa">Empresa o emprendimiento <span class="opt">(opcional)</span></label>
+        <input id="empresa" name="empresa" type="text" maxlength="255" autocomplete="organization" placeholder="Si aplica">
       </div>
       <div class="fg full">
-        <label for="reto_principal">Objetivo principal <span class="req" aria-hidden="true">*</span></label>
-        <textarea id="reto_principal" name="reto_principal" required maxlength="2500" placeholder="Ej: bajar CPA y aumentar conversiones" aria-required="true"></textarea>
+        <label for="reto_principal">¿Qué necesitas o qué te gustaría lograr? <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="reto_principal" name="reto_principal" required maxlength="2500" placeholder="Cuéntanos en pocas líneas qué buscas o en qué podemos ayudarte." aria-required="true"></textarea>
       </div>
       <div class="fg full fg-check">
         <label class="fg-check-label">
@@ -63,7 +61,6 @@
           <span>He leído y acepto la <a href="/politicas/privacidad.html" target="_blank" rel="noopener noreferrer">política de privacidad</a>. <span class="req" aria-hidden="true">*</span></span>
         </label>
       </div>
-      <input type="hidden" name="url_negocio" value="No especificada">
       <div class="fg full">
         <button class="bpri" type="submit">Solicitar diagnóstico</button>
       </div>
@@ -77,6 +74,6 @@
   <div class="fcopy">&copy; 2025 SANVALX &middot; Madrid</div>
 </footer>
 <a class="wa-float" href="https://wa.me/34681129003" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.85 11.85 0 0012.07 0C5.48 0 .12 5.36.12 11.95c0 2.1.55 4.14 1.6 5.95L0 24l6.27-1.64a11.92 11.92 0 005.8 1.48h.01c6.58 0 11.94-5.36 11.94-11.95 0-3.19-1.24-6.18-3.5-8.41z"/></svg></a>
-<script src="assets/js/main.js?v=20260323"></script>
+<script src="assets/js/main.js?v=20260324"></script>
 </body>
 </html>
