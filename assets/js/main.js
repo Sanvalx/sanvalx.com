@@ -127,6 +127,77 @@ if(canvas){
   drawP();
 }
 
+// ========== HERO GLOW FOLLOW (INDEX) ==========
+// Actualiza variables CSS para que el glow del hero siga el cursor (parallax ligero + barrido).
+(function(){
+  var heroEl = document.querySelector('.hero');
+  if(!heroEl) return;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion) return;
+
+  var rect = null;
+  var lastX = 0, lastY = 0;
+  var rafId = 0;
+
+  function refreshRect(){
+    rect = heroEl.getBoundingClientRect();
+    if(!rect || rect.width === 0 || rect.height === 0) return;
+  }
+
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+
+  function setFromPoint(x,y){
+    if(!rect) refreshRect();
+    if(!rect) return;
+
+    var cx = clamp(x - rect.left, 0, rect.width);
+    var cy = clamp(y - rect.top, 0, rect.height);
+
+    var mx = (rect.width ? (cx/rect.width*100) : 50);
+    var my = (rect.height ? (cy/rect.height*100) : 50);
+
+    // Posición del glow en px para transform (parallax suave).
+    var dx = (cx - rect.width/2) / (rect.width/2 || 1);
+    var dy = (cy - rect.height/2) / (rect.height/2 || 1);
+
+    heroEl.style.setProperty('--mx', mx.toFixed(2) + '%');
+    heroEl.style.setProperty('--my', my.toFixed(2) + '%');
+    heroEl.style.setProperty('--px', (dx*18).toFixed(2) + 'px');
+    heroEl.style.setProperty('--py', (dy*10).toFixed(2) + 'px');
+  }
+
+  function tick(){
+    rafId = 0;
+    setFromPoint(lastX, lastY);
+  }
+
+  // Inicialización al centro (evita que salga “a la esquina”).
+  refreshRect();
+  if(rect){
+    lastX = rect.left + rect.width/2;
+    lastY = rect.top + rect.height/2;
+    setFromPoint(lastX, lastY);
+  }else{
+    lastX = window.innerWidth/2;
+    lastY = window.innerHeight/2;
+  }
+
+  document.addEventListener('pointermove', function(e){
+    lastX = e.clientX;
+    lastY = e.clientY;
+    if(!rafId) rafId = requestAnimationFrame(tick);
+  }, {passive:true});
+
+  window.addEventListener('resize', function(){
+    refreshRect();
+    if(rect){
+      lastX = rect.left + rect.width/2;
+      lastY = rect.top + rect.height/2;
+      setFromPoint(lastX, lastY);
+    }
+  });
+})();
+
 // ========== INDEX INTRO SEQUENCE ==========
 function easeOut(t){return 1-Math.pow(1-t,3);}
 function animate(el,prop,from,to,dur,delay,cb){
