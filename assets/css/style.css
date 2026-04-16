@@ -26,8 +26,9 @@ nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-betwe
 html.js nav{opacity:1;transform:none}
 nav.visible{opacity:1;transform:translateY(0)}
 nav.solid{background:rgba(255,255,255,.97);border-bottom:1px solid var(--b);opacity:1!important;transform:none!important;visibility:visible}
-.logo{font-family:var(--fd);font-weight:800;font-size:22px;color:var(--t);text-decoration:none;letter-spacing:-.5px}
-.logo span{color:var(--a)}
+.logo{display:inline-flex;align-items:center;text-decoration:none}
+.logo img{display:block;height:32px;width:auto}
+.logo--mobile img{height:26px;width:auto}
 .nl{display:flex!important;gap:40px;list-style:none;position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto}
 .nl a{color:var(--m);text-decoration:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;transition:color .2s}
 .nl a:hover{color:var(--t)}
