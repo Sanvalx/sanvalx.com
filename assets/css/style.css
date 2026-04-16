@@ -22,12 +22,13 @@ html.js #intro{position:fixed;inset:0;background:#fff;z-index:5000;display:flex;
 .intro-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--a);width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
 
 /* ---- NAV ---- */
-nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 52px;z-index:600;transition:background .3s,opacity .4s,transform .4s;opacity:1;transform:none}
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 52px;z-index:600;transition:background .3s,opacity .4s,transform .4s;opacity:1;transform:none;background:rgba(255,255,255,.97);border-bottom:1px solid var(--b)}
 html.js nav{opacity:1;transform:none}
 nav.visible{opacity:1;transform:translateY(0)}
 nav.solid{background:rgba(255,255,255,.97);border-bottom:1px solid var(--b);opacity:1!important;transform:none!important;visibility:visible}
-.logo{font-family:var(--fd);font-weight:800;font-size:22px;color:var(--t);text-decoration:none;letter-spacing:-.5px}
-.logo span{color:var(--a)}
+.logo{display:inline-flex;align-items:center;text-decoration:none}
+.logo img{display:block;height:32px;width:auto}
+.logo--mobile img{height:26px;width:auto}
 .nl{display:flex!important;gap:40px;list-style:none;position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto}
 .nl a{color:var(--m);text-decoration:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;transition:color .2s}
 .nl a:hover{color:var(--t)}
@@ -41,7 +42,7 @@ nav.solid{background:rgba(255,255,255,.97);border-bottom:1px solid var(--b);opac
 }
 
 /* ---- HERO ---- */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 52px 88px;position:relative;overflow:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:110px 52px 88px;position:relative;overflow:hidden}
 #particles{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .grain{position:absolute;inset:0;z-index:1;opacity:.032;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -272,7 +273,7 @@ html.js .r{opacity:1;transform:none}
   .menu-toggle.is-active .bar:nth-child(1){transform:translateY(8px) rotate(45deg)}
   .menu-toggle.is-active .bar:nth-child(2){opacity:0}
   .menu-toggle.is-active .bar:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
-  .hero{padding:0 22px 60px}
+  .hero{padding:92px 22px 60px}
   .hfoot{flex-direction:column;gap:28px;align-items:flex-start}
   .hero h1{font-size:clamp(42px,14vw,72px);letter-spacing:-2px;line-height:.92}
   .typeblock{width:100%;min-width:0;font-size:10.5px}
