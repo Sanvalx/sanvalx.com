@@ -13,6 +13,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/img/Logotipo%20Verde%20movil.png">
   <style>
+    html.js body{cursor:none}
+    #C,#F{position:fixed;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9999;opacity:0}
+    html.js #C,html.js #F{opacity:1}
+    #C{width:8px;height:8px;background:#c8f04a;transition:width .15s,height .15s,opacity .2s}
+    #F{width:36px;height:36px;border:1px solid rgba(200,240,74,.35);z-index:9998;transition:width .22s,height .22s}
     body{
       margin:0;
       height:100vh;
@@ -44,6 +49,8 @@
   </style>
 </head>
 <body>
+  <div id="C"></div>
+  <div id="F"></div>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NML9CVWK"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -51,6 +58,35 @@
   <h1>404</h1>
   <p>La página que buscas no existe.</p>
   <a href="/">Volver al inicio</a>
+  <script>
+    document.documentElement.classList.add('js');
+    var C = document.getElementById('C');
+    var F = document.getElementById('F');
+    if (C && F) {
+      var mx = window.innerWidth / 2, my = window.innerHeight / 2, fx = mx, fy = my;
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        C.style.left = mx + 'px';
+        C.style.top = my + 'px';
+      });
+      (function loop() {
+        fx += (mx - fx) * 0.1; fy += (my - fy) * 0.1;
+        F.style.left = fx + 'px';
+        F.style.top = fy + 'px';
+        requestAnimationFrame(loop);
+      })();
+      document.querySelectorAll('a,button,input,select,textarea').forEach(function(el) {
+        el.addEventListener('mouseenter', function() {
+          C.style.width = '16px'; C.style.height = '16px';
+          F.style.width = '48px'; F.style.height = '48px';
+        });
+        el.addEventListener('mouseleave', function() {
+          C.style.width = '8px'; C.style.height = '8px';
+          F.style.width = '36px'; F.style.height = '36px';
+        });
+      });
+    }
+  </script>
 </body>
 </html>
 
