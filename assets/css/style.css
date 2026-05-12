@@ -407,6 +407,21 @@ body.contacto-page .reveal-up {
   box-shadow: 0 10px 20px rgba(200, 240, 74, 0.2); /* Resplandor sutil */
 }
 
+/* Nav oscuro en todo el sitio (refuerzo frente a caché u hojas antiguas) */
+#nav,
+#nav.solid{
+  background:#000!important;
+  border-bottom:1px solid rgba(255,255,255,.12)!important;
+}
+#nav:not(.solid){
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#nav .nl a{color:rgba(255,255,255,.82)!important}
+#nav .nl a:hover{color:#fff!important}
+#nav .menu-toggle .bar{background:#fff!important}
+#nav .logo img{filter:none!important;mix-blend-mode:normal!important}
+
 /* Safety override: menu always visible */
 #nav{opacity:1!important;transform:none!important;visibility:visible!important}
 #nav .logo,#nav .nl,#nav .menu-toggle{visibility:visible!important}
