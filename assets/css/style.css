@@ -48,14 +48,14 @@ body.home-page .hero{
   background:#0a0a0a;
   color:#f3f3f3;
 }
-body.home-page #nav:not(.solid){
-  background:rgba(10,10,10,.82);
-  border-bottom:1px solid rgba(255,255,255,.14);
+body.home-page #nav,
+body.home-page #nav.solid{
+  background:rgba(0,0,0,.95);
+  border-bottom:1px solid rgba(255,255,255,.12);
 }
-body.home-page #nav:not(.solid) .logo img{filter:invert(1)}
-body.home-page #nav:not(.solid) .nl a{color:rgba(255,255,255,.82)}
-body.home-page #nav:not(.solid) .nl a:hover{color:#ffffff}
-body.home-page #nav:not(.solid) .menu-toggle .bar{background:#ffffff}
+body.home-page #nav .nl a{color:rgba(255,255,255,.82)}
+body.home-page #nav .nl a:hover{color:#ffffff}
+body.home-page #nav .menu-toggle .bar{background:#ffffff}
 body.home-page .hero h1,
 body.home-page .hero .hline-inner{color:#f3f3f3}
 body.home-page .hero h1 em,
@@ -303,6 +303,9 @@ html.js .r{opacity:1;transform:none}
   nav{padding:18px 22px}
   .menu-toggle{display:flex;z-index:9999}
   .nl{display:none!important;position:fixed;top:0;left:0;width:100vw;height:100vh;margin:0;padding:0;list-style:none;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);flex-direction:column;justify-content:center;align-items:center;gap:40px;z-index:9998}
+  body.home-page .nl{background:rgba(8,8,8,.98)!important;border-top:1px solid rgba(255,255,255,.08)}
+  body.home-page .nl a{color:rgba(255,255,255,.88)!important}
+  body.home-page .nl a:hover{color:#fff!important}
   .nl a{font-size:17px;letter-spacing:.08em}
   .nl.nav-active{display:flex!important}
   .menu-toggle.is-active .bar:nth-child(1){transform:translateY(8px) rotate(45deg)}
