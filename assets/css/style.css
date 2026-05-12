@@ -50,9 +50,16 @@ body.home-page .hero{
 }
 body.home-page #nav,
 body.home-page #nav.solid{
-  background:rgba(0,0,0,.95);
+  background:#000;
   border-bottom:1px solid rgba(255,255,255,.12);
 }
+/* Evita composición rara del logo con el hero cuando hay backdrop-filter (colores falsos / texto oscuro). */
+body.home-page #nav:not(.solid){
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+body.home-page #nav .logo{isolation:isolate}
+body.home-page #nav .logo img{mix-blend-mode:normal}
 body.home-page #nav .nl a{color:rgba(255,255,255,.82)}
 body.home-page #nav .nl a:hover{color:#ffffff}
 body.home-page #nav .menu-toggle .bar{background:#ffffff}
