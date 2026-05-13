@@ -419,6 +419,8 @@ body.contacto-page .reveal-up {
 }
 #nav .nl a{color:rgba(255,255,255,.82)!important}
 #nav .nl a:hover{color:#fff!important}
+#nav .nl a.ncta [data-nav-hablemos],
+#nav .nl a.ncta:hover [data-nav-hablemos]{color:#000!important}
 #nav .menu-toggle .bar{background:#fff!important}
 #nav .logo img{filter:none!important;mix-blend-mode:normal!important}
 
