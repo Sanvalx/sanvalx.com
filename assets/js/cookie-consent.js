@@ -16,7 +16,7 @@
 
   var SANVALX_DEFAULTS = {
     /** Contenedor GTM: GA4, Ads, Meta, LinkedIn, Clarity… se configuran dentro de GTM */
-    gtmId: '',
+    gtmId: 'GTM-NML9CVWK',
     clarityId: '',
     gaMeasurementId: '',
     metaPixelId: ''
