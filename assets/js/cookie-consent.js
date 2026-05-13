@@ -113,7 +113,7 @@
     var link = document.createElement('link');
     link.id = 'sanvalx-cookie-banner-css';
     link.rel = 'stylesheet';
-    link.href = '/assets/css/cookie-banner.css';
+    link.href = '/assets/css/cookie-banner.css?v=20260517';
     document.head.appendChild(link);
   }
 

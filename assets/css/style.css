@@ -165,6 +165,23 @@ html.js .hfoot{opacity:0;transform:translateY(20px)}
 
 .scroll-ind{position:absolute;right:52px;bottom:88px;writing-mode:vertical-rl;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--m);display:flex;align-items:center;gap:10px;z-index:2;opacity:1}
 html.js .scroll-ind{opacity:0}
+@media (min-width: 993px) {
+  html.js body.home-page .hline-inner {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  html.js body.home-page .hbadge {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html.js body.home-page .hfoot {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html.js body.home-page .scroll-ind {
+    opacity: 1 !important;
+  }
+}
 .scroll-ind::after{content:'';width:1px;height:50px;background:linear-gradient(to bottom,rgba(200,240,74,.5),transparent);animation:lineDown 2s ease infinite}
 @keyframes lineDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 

@@ -96,35 +96,101 @@ if(C && F){
 
 // ========== PARTICLES (INDEX ONLY) ==========
 var canvas = document.getElementById('particles');
-if(canvas){
+if (canvas) {
   var ctx = canvas.getContext('2d');
-  var W, H, parts = [], mouseP = {x:-999,y:-999};
-  function resizeC(){W = canvas.width = canvas.offsetWidth;H = canvas.height = canvas.offsetHeight;}
-  resizeC();
-  window.addEventListener('resize', function(){resizeC();initP();});
-  document.addEventListener('mousemove', function(e){var r=canvas.getBoundingClientRect();mouseP.x=e.clientX-r.left;mouseP.y=e.clientY-r.top;});
-  function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.42;this.vy=(Math.random()-.5)*.42;this.r=Math.random()*1.7+.4;this.a=Math.random()*.4+.07;this.ba=this.a;}
-  function initP(){parts=[];var n=Math.floor(W*H/8000);for(var i=0;i<n;i++)parts.push(new Pt());}
-  initP();
-  function drawP(){
-    ctx.clearRect(0,0,W,H);
-    for(var i=0;i<parts.length;i++){
-      var p=parts[i];
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-      var dx=p.x-mouseP.x,dy=p.y-mouseP.y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<140){var f=(140-d)/140;p.x+=dx/d*f*2.4;p.y+=dy/d*f*2.4;p.a=Math.min(.85,p.ba+f*.65);}
-      else{p.a+=(p.ba-p.a)*.04;}
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(200,240,74,'+p.a+')';ctx.fill();
-      for(var j=i+1;j<parts.length;j++){
-        var q=parts[j],ex=p.x-q.x,ey=p.y-q.y,ed=Math.sqrt(ex*ex+ey*ey);
-        if(ed<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(200,240,74,'+(1-ed/120)*.09+')';ctx.lineWidth=.5;ctx.stroke();}
+  var W, H, parts = [], mouseP = { x: -999, y: -999 };
+  var canvasRectCache = null;
+  var canvasRectStale = true;
+  function markCanvasRectStale() {
+    canvasRectStale = true;
+  }
+  function readCanvasRect() {
+    if (canvasRectStale || !canvasRectCache) {
+      canvasRectCache = canvas.getBoundingClientRect();
+      canvasRectStale = false;
+    }
+    return canvasRectCache;
+  }
+  function resizeC() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    markCanvasRectStale();
+  }
+  function initP() {
+    parts = [];
+    var n = Math.floor((W * H) / 8000);
+    for (var i = 0; i < n; i++) parts.push(new Pt());
+  }
+  window.addEventListener('resize', function () {
+    resizeC();
+    initP();
+  });
+  window.addEventListener('scroll', markCanvasRectStale, { passive: true });
+  document.addEventListener(
+    'mousemove',
+    function (e) {
+      var r = readCanvasRect();
+      mouseP.x = e.clientX - r.left;
+      mouseP.y = e.clientY - r.top;
+    },
+    { passive: true }
+  );
+  function Pt() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.42;
+    this.vy = (Math.random() - 0.5) * 0.42;
+    this.r = Math.random() * 1.7 + 0.4;
+    this.a = Math.random() * 0.4 + 0.07;
+    this.ba = this.a;
+  }
+  function drawP() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+      var dx = p.x - mouseP.x,
+        dy = p.y - mouseP.y,
+        d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 140 && d > 1e-6) {
+        var f = (140 - d) / 140;
+        p.x += (dx / d) * f * 2.4;
+        p.y += (dy / d) * f * 2.4;
+        p.a = Math.min(0.85, p.ba + f * 0.65);
+      } else {
+        p.a += (p.ba - p.a) * 0.04;
+      }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(200,240,74,' + p.a + ')';
+      ctx.fill();
+      for (var j = i + 1; j < parts.length; j++) {
+        var q = parts[j],
+          ex = p.x - q.x,
+          ey = p.y - q.y,
+          ed = Math.sqrt(ex * ex + ey * ey);
+        if (ed < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = 'rgba(200,240,74,' + (1 - ed / 120) * 0.09 + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
       }
     }
     requestAnimationFrame(drawP);
   }
-  drawP();
+  requestAnimationFrame(function () {
+    resizeC();
+    initP();
+    drawP();
+  });
 }
 
 // ========== HERO GLOW FOLLOW (INDEX) ==========
@@ -196,6 +262,7 @@ if(canvas){
       setFromPoint(lastX, lastY);
     }
   });
+  window.addEventListener('scroll', function(){ rect = null; }, {passive: true});
 })();
 
 // ========== INDEX INTRO SEQUENCE ==========
