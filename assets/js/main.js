@@ -415,15 +415,26 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.r').forEach(el => el.classList.add('on'));
 
   // 2. Interceptar enlaces para salida fluida (Fade-out antes de navegar)
-  const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"])');
+  const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not(.cta-btn)');
   links.forEach(link => {
     link.addEventListener('click', (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      let targetUrl;
+      try {
+        targetUrl = new URL(link.href, window.location.href).href;
+      } catch (err) {
+        return;
+      }
+      if (window.location.protocol === 'file:') {
+        return;
+      }
       e.preventDefault();
-      const targetUrl = link.href;
       document.body.classList.add('page-exit');
       setTimeout(() => {
         window.location.href = targetUrl;
-      }, 500); // Sincronizado con la transición CSS
+      }, 500);
     });
   });
 
