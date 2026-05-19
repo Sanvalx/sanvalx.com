@@ -23,3 +23,13 @@ Formulario único: /contacto.html → /procesar_lead.php
 
 5. No subas database.php con datos reales a repositorios públicos.
    El archivo .htaccess impide el acceso web a /config/.
+
+6. Verificación en servidor (SSH o terminal Hostinger):
+   php scripts/verify_contact_backend.php
+   Debe mostrar [OK] en conexión MySQL y tabla leads.
+
+7. Prueba manual del flujo:
+   - Abre https://sanvalx.com/contacto.html
+   - Envía el formulario con datos de prueba
+   - Debes llegar a https://sanvalx.com/gracias.html
+   - Si falla: ?e=config (falta config), ?e=servidor (error BD), ?e=validacion

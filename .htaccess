@@ -19,6 +19,7 @@ ErrorDocument 404 /404.html
 </IfModule>
 RewriteRule ^config/ - [F,L]
 RewriteRule ^database/ - [F,L]
+RewriteRule ^scripts/ - [F,L]
 
 # --- INICIO BLOQUE SEGURIDAD ---
 # Bloquear listado de directorios y ocultar firma del servidor
