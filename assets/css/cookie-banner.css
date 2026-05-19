@@ -15,7 +15,7 @@
   justify-content: space-between;
   gap: 24px;
   flex-wrap: wrap;
-  z-index: 9999;
+  z-index: 800;
   font-family: var(--fb, 'DM Sans', system-ui, sans-serif);
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
 }

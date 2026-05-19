@@ -70,6 +70,41 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
   }
+
+  document.querySelectorAll('.nav-dropdown').forEach(function(dropdown){
+    var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+    if(!toggle){ return; }
+
+    toggle.addEventListener('click', function(e){
+      if(window.innerWidth > mobileBreakpoint){ return; }
+      e.preventDefault();
+      e.stopPropagation();
+      var isOpen = dropdown.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){
+        if(d !== dropdown){ d.classList.remove('open'); }
+      });
+      dropdown.classList.toggle('open', !isOpen);
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    dropdown.querySelectorAll('.nav-dropdown-menu a').forEach(function(link){
+      link.addEventListener('click', function(){
+        dropdown.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        if(menuToggle && navMenu){ menuToggle.classList.remove('is-active'); navMenu.classList.remove('nav-active'); document.body.style.overflow = ''; }
+      });
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.nav-dropdown')){
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d){
+        d.classList.remove('open');
+        var t = d.querySelector('.nav-dropdown-toggle');
+        if(t){ t.setAttribute('aria-expanded', 'false'); }
+      });
+    }
+  });
 });
 
 // ========== CURSOR ==========
@@ -415,7 +450,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.r').forEach(el => el.classList.add('on'));
 
   // 2. Interceptar enlaces para salida fluida (Fade-out antes de navegar)
-  const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not(.cta-btn)');
+  const links = document.querySelectorAll(
+    'a[href]:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not(.cta-btn):not(.bpri):not(form a)'
+  );
   links.forEach(link => {
     link.addEventListener('click', (e) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
