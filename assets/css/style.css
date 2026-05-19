@@ -279,9 +279,15 @@ html.js .r{opacity:1;transform:none}
 .wa-float:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.45)}
 
 /* Forms */
+.contacto-lead{color:#c6c6c6;max-width:620px;margin-bottom:28px}
 .form-shell{max-width:860px;margin:0 auto;border:1px solid var(--b);background:var(--s);padding:34px;border-radius:16px}
 .form-error-banner{background:#2a1818;border:1px solid #6b3030;color:#f0d0d0;padding:14px 16px;border-radius:10px;margin-bottom:18px;font-size:14px;line-height:1.45}
 .form-error-banner a{color:#c8f04a;text-decoration:underline}
+.form-intro{color:var(--m);font-size:14px;line-height:1.5;margin:0}
+.form-honeypot{position:absolute;left:-5000px;top:-5000px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.form-section-hd{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--m);margin:12px 0 0;padding:14px 0 0;border-top:1px solid var(--b)}
+.form-section-hd:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.form-actions{margin-top:4px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .fg{display:flex;flex-direction:column;gap:8px}
 .fg.full{grid-column:1/-1}

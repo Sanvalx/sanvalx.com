@@ -35,13 +35,17 @@
 <section class="sec" style="padding-top:150px">
   <div class="lbl">Contacto</div>
   <h1 class="ttl" style="margin-bottom:18px">Hablemos de tu <em>crecimiento</em>.</h1>
-  <p style="color:#c6c6c6;max-width:620px;margin-bottom:28px">Te respondemos en menos de 24h con una propuesta clara y accionable.</p>
+  <p class="contacto-lead">Te respondemos en menos de 24h con una propuesta clara y accionable.</p>
   <div class="form-shell">
-    <form class="form-grid" action="procesar_lead.php" method="POST">
-      <div style="position: absolute; left: -5000px; top: -5000px;" aria-hidden="true">
-        <label for="website_url">Leave this field blank</label>
+    <form id="form-contacto" class="form-grid" action="/procesar_lead.php" method="post" novalidate>
+      <p class="form-intro full">Los campos con <span class="req" aria-hidden="true">*</span> son obligatorios. Te respondemos en menos de 24&nbsp;h.</p>
+
+      <div class="form-honeypot" aria-hidden="true">
+        <label for="website_url">No rellenar</label>
         <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
       </div>
+
+      <h2 class="form-section-hd full">Tus datos</h2>
       <div class="fg">
         <label for="nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
         <input id="nombre" name="nombre" type="text" required maxlength="120" autocomplete="name" aria-required="true">
@@ -55,12 +59,14 @@
         <input id="whatsapp" name="whatsapp" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" placeholder="Ej: +34 600 000 000">
       </div>
       <div class="fg">
-        <label for="empresa">Empresa o emprendimiento <span class="opt">(opcional)</span></label>
-        <input id="empresa" name="empresa" type="text" maxlength="255" autocomplete="organization" placeholder="Si aplica">
+        <label for="empresa">Empresa o proyecto <span class="opt">(opcional)</span></label>
+        <input id="empresa" name="empresa" type="text" maxlength="255" autocomplete="organization" placeholder="Nombre de tu negocio o idea">
       </div>
+
+      <h2 class="form-section-hd full">Tu mensaje</h2>
       <div class="fg full">
         <label for="reto_principal">¿Qué necesitas o qué te gustaría lograr? <span class="req" aria-hidden="true">*</span></label>
-        <textarea id="reto_principal" name="reto_principal" required maxlength="2500" placeholder="Cuéntanos en pocas líneas qué buscas o en qué podemos ayudarte." aria-required="true"></textarea>
+        <textarea id="reto_principal" name="reto_principal" required maxlength="2500" rows="6" placeholder="Cuéntanos en pocas líneas qué buscas o en qué podemos ayudarte." aria-required="true"></textarea>
       </div>
       <div class="fg full fg-check">
         <label class="fg-check-label">
@@ -68,8 +74,8 @@
           <span>He leído y acepto la <a href="/politicas/privacidad.html" target="_blank" rel="noopener noreferrer">política de privacidad</a>. <span class="req" aria-hidden="true">*</span></span>
         </label>
       </div>
-      <div class="fg full">
-        <button class="bpri" type="submit">Solicitar diagnóstico</button>
+      <div class="fg full form-actions">
+        <button class="bpri" type="submit">Enviar solicitud</button>
       </div>
     </form>
   </div>

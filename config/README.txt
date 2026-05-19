@@ -1,18 +1,25 @@
 CONFIGURACIÓN BASE DE DATOS (SANVALX)
 =====================================
 
+Formulario único: /contacto.html → /procesar_lead.php
+
 1. En Hostinger (hPanel):
    - Bases de datos MySQL → Crear base de datos.
    - Anota: nombre de la BD, usuario MySQL y contraseña.
 
 2. En phpMyAdmin:
-   - Importa o ejecuta el contenido de: database/schema.sql
-   (crea la tabla "contactos").
+   - Importa o ejecuta: database/schema.sql
+   - Crea la tabla "leads" para las solicitudes de contacto.
 
 3. En este directorio, edita: database.php
    - DB_NAME = nombre de tu base de datos
    - DB_USER = usuario MySQL
    - DB_PASS = contraseña MySQL
 
-4. No subas database.php con datos reales a repositorios públicos.
-   El archivo .htaccess ya impide que se acceda a /config/ por la web.
+   Alternativa: config.php en la raíz (copia de config.example.php).
+
+4. Webhook Make (opcional):
+   - Añade make_webhook en config.php con la URL del módulo Webhook.
+
+5. No subas database.php con datos reales a repositorios públicos.
+   El archivo .htaccess impide el acceso web a /config/.

@@ -379,7 +379,8 @@ document.addEventListener('DOMContentLoaded', () => {
         validacion: 'Revisa los campos obligatorios (marcados con asterisco) y vuelve a enviar.',
         servidor: 'No pudimos registrar tu solicitud. Inténtalo en unos minutos o escríbenos por WhatsApp.',
         privacidad: 'Debes aceptar la política de privacidad para continuar.',
-        config: 'El formulario no está disponible temporalmente. Por favor contacta por otro canal.'
+        config: 'El formulario no está disponible temporalmente. Por favor contacta por otro canal.',
+        limite: 'Has enviado varias solicitudes seguidas. Espera un momento o escríbenos por WhatsApp.'
       };
       var text = messages[code] || messages.servidor;
       var banner = document.createElement('div');
