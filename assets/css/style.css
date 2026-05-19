@@ -263,6 +263,42 @@ html.js .scroll-ind{opacity:0}
 .cta-mail{display:inline-flex;align-items:center;gap:16px;font-family:var(--fd);font-size:clamp(20px,3vw,40px);font-weight:700;color:var(--t);text-decoration:none;border-bottom:1px solid var(--b);padding-bottom:8px;transition:color .3s,border-color .3s}
 .cta-mail:hover{color:var(--a);border-color:var(--a)}
 .cta-action{position:relative;margin-top:4px}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#060606;color:var(--a);
+  padding:18px 38px;border-radius:100px;
+  font-family:var(--fd);font-weight:700;font-size:15px;
+  text-decoration:none;letter-spacing:.02em;
+  border:1px solid rgba(200,240,74,.35);
+  box-shadow:0 0 0 0 rgba(200,240,74,.15);
+  position:relative;overflow:hidden;
+  animation:cta-btn-glow 3s ease-in-out infinite;
+  transition:transform .25s,border-color .25s,box-shadow .25s,color .25s;
+}
+.cta-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(200,240,74,.12) 50%,transparent 60%);
+  transform:translateX(-120%);
+  transition:transform .55s ease;
+}
+.cta-btn:hover::after{transform:translateX(120%)}
+.cta-btn:hover{
+  transform:translateY(-3px);
+  border-color:var(--a);
+  color:#d8f86a;
+  box-shadow:0 0 40px rgba(200,240,74,.28);
+  animation:none;
+}
+.cta-btn span{display:inline-block;transition:transform .3s ease}
+.cta-btn:hover span{transform:translateX(6px)}
+@keyframes cta-btn-glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(200,240,74,.12)}
+  50%{box-shadow:0 0 28px rgba(200,240,74,.22)}
+}
+@media (prefers-reduced-motion: reduce){
+  .cta-btn{animation:none}
+  .cta-btn::after{display:none}
+}
 #formulario-contacto{scroll-margin-top:120px}
 footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-content:space-between;align-items:center}
 .fl{font-family:var(--fd);font-weight:800;font-size:18px}
