@@ -370,21 +370,8 @@ if('IntersectionObserver' in window){
   document.querySelectorAll('.r').forEach(function(el){el.classList.add('on');});
 }
 
-function scrollToFormularioContacto() {
-  var target = document.getElementById('formulario-contacto');
-  if (!target) return;
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  var nombre = document.getElementById('nombre');
-  if (nombre) {
-    window.setTimeout(function () { nombre.focus({ preventScroll: true }); }, 450);
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   if (document.body.classList.contains('contacto-page')) {
-    if (window.location.hash === '#formulario-contacto') {
-      window.setTimeout(scrollToFormularioContacto, 650);
-    }
     var params = new URLSearchParams(window.location.search);
     var code = params.get('e');
     if (code) {
