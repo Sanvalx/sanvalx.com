@@ -395,6 +395,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window.history.replaceState({}, '', '/contacto.html');
       } catch (err) {}
     }
+    if (window.location.hash === '#formulario-contacto') {
+      window.setTimeout(function () {
+        var formBlock = document.getElementById('formulario-contacto');
+        if (formBlock) {
+          formBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 650);
+    }
   }
 
   // 1. Page Load Transition
