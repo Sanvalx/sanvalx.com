@@ -256,13 +256,13 @@ html.js .scroll-ind{opacity:0}
 .tc-name{font-family:var(--fd);font-size:14px;font-weight:700}
 .tc-role{font-size:12px;color:var(--m);margin-top:2px}
 .cta{padding:160px 52px;text-align:center;position:relative;overflow:hidden}
-.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(200,240,74,.065),transparent)}
-.cta h2{font-family:var(--fd);font-size:clamp(46px,7vw,96px);font-weight:800;letter-spacing:-3px;line-height:.93;margin-bottom:36px;position:relative}
+.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(200,240,74,.065),transparent);pointer-events:none}
+.cta h2{font-family:var(--fd);font-size:clamp(46px,7vw,96px);font-weight:800;letter-spacing:-3px;line-height:.93;margin-bottom:36px;position:relative;z-index:1}
 .cta h2 em{font-style:italic;font-weight:300;font-family:var(--fb);color:var(--m)}
-.cta p{color:var(--m);font-size:17px;margin-bottom:52px;position:relative}
+.cta p{color:var(--m);font-size:17px;margin-bottom:52px;position:relative;z-index:1}
 .cta-mail{display:inline-flex;align-items:center;gap:16px;font-family:var(--fd);font-size:clamp(20px,3vw,40px);font-weight:700;color:var(--t);text-decoration:none;border-bottom:1px solid var(--b);padding-bottom:8px;transition:color .3s,border-color .3s}
 .cta-mail:hover{color:var(--a);border-color:var(--a)}
-.cta-action{position:relative;margin-top:4px}
+.cta-action{position:relative;margin-top:4px;z-index:2}
 .cta-btn{
   display:inline-flex;align-items:center;gap:10px;
   background:#060606;color:var(--a);
@@ -271,7 +271,7 @@ html.js .scroll-ind{opacity:0}
   text-decoration:none;letter-spacing:.02em;
   border:1px solid rgba(200,240,74,.35);
   box-shadow:0 0 0 0 rgba(200,240,74,.15);
-  position:relative;overflow:hidden;
+  position:relative;z-index:2;overflow:hidden;cursor:pointer;
   animation:cta-btn-glow 3s ease-in-out infinite;
   transition:transform .25s,border-color .25s,box-shadow .25s,color .25s;
 }
@@ -280,6 +280,7 @@ html.js .scroll-ind{opacity:0}
   background:linear-gradient(105deg,transparent 40%,rgba(200,240,74,.12) 50%,transparent 60%);
   transform:translateX(-120%);
   transition:transform .55s ease;
+  pointer-events:none;
 }
 .cta-btn:hover::after{transform:translateX(120%)}
 .cta-btn:hover{
