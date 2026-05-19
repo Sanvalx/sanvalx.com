@@ -263,6 +263,10 @@ html.js .scroll-ind{opacity:0}
 .cta-mail{display:inline-flex;align-items:center;gap:16px;font-family:var(--fd);font-size:clamp(20px,3vw,40px);font-weight:700;color:var(--t);text-decoration:none;border-bottom:1px solid var(--b);padding-bottom:8px;transition:color .3s,border-color .3s}
 .cta-mail:hover{color:var(--a);border-color:var(--a)}
 .cta-action{position:relative;margin-top:4px}
+.cta-mail-btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--fd);font-size:clamp(18px,2.5vw,28px);font-weight:700;color:var(--t);text-decoration:underline;text-decoration-color:var(--b);text-underline-offset:10px;text-decoration-thickness:1px;padding:18px 38px 16px;border:1px solid var(--b);border-radius:100px;background:transparent;transition:color .3s,border-color .3s,text-decoration-color .3s,transform .25s,box-shadow .25s}
+.cta-mail-btn:hover{color:var(--a);border-color:var(--a);text-decoration-color:var(--a);transform:translateY(-2px);box-shadow:0 10px 32px rgba(200,240,74,.1)}
+.cta-mail-btn span{display:inline-block;transition:transform .25s}
+.cta-mail-btn:hover span{transform:translateX(6px)}
 #formulario-contacto{scroll-margin-top:120px}
 footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-content:space-between;align-items:center}
 .fl{font-family:var(--fd);font-weight:800;font-size:18px}
