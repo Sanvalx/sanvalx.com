@@ -280,6 +280,7 @@ html.js .r{opacity:1;transform:none}
 
 /* Forms */
 .contacto-lead{color:#c6c6c6;max-width:620px;margin-bottom:28px}
+#formulario-contacto{scroll-margin-top:120px}
 .form-shell{max-width:860px;margin:0 auto;border:1px solid var(--b);background:var(--s);padding:34px;border-radius:16px}
 .form-error-banner{background:#2a1818;border:1px solid #6b3030;color:#f0d0d0;padding:14px 16px;border-radius:10px;margin-bottom:18px;font-size:14px;line-height:1.45}
 .form-error-banner a{color:#c8f04a;text-decoration:underline}
