@@ -10,6 +10,11 @@ window.addEventListener('pageshow', function(){
   }
 });
 
+var isTouch =
+  (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) ||
+  ('ontouchstart' in window) ||
+  (navigator && navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+
 // ========== MENU TOGGLE (GLOBAL) ==========
 document.addEventListener('DOMContentLoaded', function(){
   var menuToggle = document.querySelector('.menu-toggle');
@@ -109,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function(){
 // ========== CURSOR ==========
 var C = document.getElementById('C');
 var F = document.getElementById('F');
-if(C && F){
+if(C && F && !isTouch){
   var mx = window.innerWidth/2, my = window.innerHeight/2, fx = mx, fy = my;
   document.addEventListener('mousemove', function(e){
     mx = e.clientX; my = e.clientY;
@@ -152,7 +157,8 @@ if (canvas) {
   }
   function initP() {
     parts = [];
-    var n = Math.floor((W * H) / 8000);
+    var density = isTouch ? 12000 : 8000;
+    var n = Math.floor((W * H) / density);
     for (var i = 0; i < n; i++) parts.push(new Pt());
   }
   window.addEventListener('resize', function () {
