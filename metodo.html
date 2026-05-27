@@ -30,7 +30,18 @@
   </a>
   <button class="menu-toggle" aria-label="Abrir menú"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
   <ul class="nl">
-    <li><a href="/servicios.html">Servicios</a></li>
+    <li class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-controls="nav-servicios-menu" id="nav-servicios-toggle">
+        Servicios <span class="nav-dropdown-caret" aria-hidden="true">▾</span>
+      </button>
+      <ul class="nav-dropdown-menu" id="nav-servicios-menu" aria-label="Servicios">
+        <li><a href="/servicios/auditoria.html">Auditoría &amp; Diagnóstico</a></li>
+        <li><a href="/servicios/ingenieria-de-marca.html">Ingeniería de Marca</a></li>
+        <li><a href="/servicios/performance.html">Implementación &amp; Performance</a></li>
+        <li><a href="/servicios/automatizacion.html">Arquitectura de Automatización</a></li>
+        <li><a href="/servicios/data-analytics.html">Data Analytics &amp; Optimización</a></li>
+      </ul>
+    </li>
     <li><a href="/metodo.html">El Método</a></li>
     <li><a href="/proyectos.html">Proyectos</a></li>
     <li><a href="/nosotros.html">Nosotros</a></li>
