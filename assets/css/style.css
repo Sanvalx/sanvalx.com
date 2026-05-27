@@ -430,31 +430,39 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
 .flinks a{color:var(--m);text-decoration:none;font-size:12px;transition:color .2s}
 .flinks a:hover{color:var(--t)}
 .fcopy{color:var(--m);font-size:11px}
-/* Scroll reveal: visible by default; animación solo con JS activo */
-.r,
-.reveal-up{
-  opacity:1;
-  transform:none;
-  transition:opacity .55s ease-out,transform .55s ease-out;
-}
-html.js .r:not(.is-visible):not(.on),
-html.js .reveal-up:not(.is-visible){
+/* Scroll reveal: sin JS todo visible; con JS fade + slide up al entrar en viewport */
+html.js [data-reveal]{
   opacity:0;
-  transform:translateY(22px);
+  transform:translateY(24px);
+  transition:opacity .58s ease-out,transform .58s ease-out;
+  will-change:opacity,transform;
 }
-.r.is-visible,
-.r.on,
-.reveal-up.is-visible{
+html.js [data-reveal].is-visible{
+  opacity:1;
+  transform:translateY(0);
+  will-change:auto;
+}
+/* Compatibilidad con .r / .reveal-up existentes */
+html.js .reveal-up:not(.is-visible),
+html.js .r:not(.is-visible):not(.on){
+  opacity:0;
+  transform:translateY(24px);
+}
+.reveal-up,.r{
+  transition:opacity .58s ease-out,transform .58s ease-out;
+}
+.reveal-up.is-visible,.r.is-visible,.r.on{
   opacity:1;
   transform:translateY(0);
 }
 @media (prefers-reduced-motion: reduce){
-  html.js .r,
+  html.js [data-reveal],
   html.js .reveal-up,
-  .r,.reveal-up{
+  html.js .r{
     opacity:1!important;
     transform:none!important;
     transition:none!important;
+    will-change:auto!important;
   }
 }
 /* WhatsApp floating */
