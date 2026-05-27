@@ -393,22 +393,112 @@ if(navEl){
   window.addEventListener('scroll', function(){navEl.classList.toggle('solid',window.scrollY>40);});
 }
 
-// ========== SCROLL REVEAL ==========
-if('IntersectionObserver' in window){
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e,i){
-      if(e.isIntersecting){
-        setTimeout(function(){e.target.classList.add('on');},i*65);
-        obs.unobserve(e.target);
-      }
+// ========== SCROLL REVEAL (todas las páginas) ==========
+function initScrollReveal(){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var skipWithin = '#nav, footer, #cookie-banner, #intro, .hero .h1hero, .hero .hfoot';
+
+  function shouldSkip(el){
+    if(!el || el.closest(skipWithin)) return true;
+    return false;
+  }
+
+  var selectorList = [
+    '.r',
+    'section.sec',
+    'body.servicio-page section.sec',
+    'section.proc',
+    'section.testi',
+    'section.cta',
+    'section.page-cta',
+    'section.mq',
+    'section.about',
+    'main.metodo-wrap > *',
+    '.methodology-timeline .timeline-item',
+    '.stats .st',
+    '.svc .sc',
+    '.pg .pi',
+    '.pg2 .pi2',
+    '.tg2 .tc',
+    '.servicios-hub-grid .servicio-card',
+    '.servicio-body',
+    '.servicio-intro',
+    '.servicio-kicker',
+    'h1.ttl',
+    'h2.ttl',
+    '.lbl',
+    '.metodo-title',
+    '.metodo-sub',
+    '.metodo-kicker',
+    '.form-shell',
+    '.thanks-card',
+    '.pol-wrap > h1',
+    '.pol-wrap > h2',
+    '.pol-wrap > p',
+    '.pol-wrap > ul',
+    '.pol-wrap > table',
+    '.page-cta .r',
+    '.page-cta > div'
+  ];
+
+  var seen = new Set();
+  var elements = [];
+  selectorList.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      if(seen.has(el) || shouldSkip(el)) return;
+      seen.add(el);
+      el.classList.add('reveal-up');
+      elements.push(el);
     });
-  },{threshold:.08});
-  document.querySelectorAll('.r').forEach(function(el){obs.observe(el);});
-}else{
-  // Fallback for browsers without IntersectionObserver:
-  // keep content visible instead of leaving reveal elements hidden.
-  document.querySelectorAll('.r').forEach(function(el){el.classList.add('on');});
+  });
+
+  function markVisible(el){
+    el.classList.add('is-visible');
+    if(el.classList.contains('r')) el.classList.add('on');
+  }
+
+  if(reduceMotion || !('IntersectionObserver' in window)){
+    elements.forEach(markVisible);
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      var el = entry.target;
+      var delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
+      setTimeout(function(){ markVisible(el); }, delay);
+      observer.unobserve(el);
+    });
+  }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+  elements.forEach(function(el){
+    var parent = el.parentElement;
+    if(parent){
+      var siblings = Array.prototype.filter.call(parent.children, function(c){
+        return c.classList && c.classList.contains('reveal-up');
+      });
+      var idx = siblings.indexOf(el);
+      if(idx > 0 && idx < 8) el.setAttribute('data-reveal-delay', String(idx * 65));
+    }
+    observer.observe(el);
+  });
+
+  requestAnimationFrame(function(){
+    elements.forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight * 0.9 && rect.bottom > 0) markVisible(el);
+    });
+  });
+
+  setTimeout(function(){
+    document.querySelectorAll('.reveal-up:not(.is-visible), .r:not(.is-visible)').forEach(markVisible);
+  }, 1200);
 }
+
+document.addEventListener('DOMContentLoaded', function(){
+  initScrollReveal();
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   if (document.body.classList.contains('contacto-page')) {
@@ -451,9 +541,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.remove('page-exit');
   });
 
-  // Fail-safe: nunca dejar el contenido principal oculto.
-  document.querySelectorAll('.r').forEach(el => el.classList.add('on'));
-
   // 2. Interceptar enlaces para salida fluida (Fade-out antes de navegar)
   const links = document.querySelectorAll(
     'a[href]:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not(.cta-btn):not(.bpri):not(form a)'
@@ -480,49 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3. Intersection Observer (Scroll Reveal)
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.15 // El elemento aparece cuando el 15% es visible
-  };
-
-  // Seleccionar dinámicamente elementos a animar
-  const elementsToReveal = document.querySelectorAll('h1, h2, .lbl, .pg .pi, .pi2, .about');
-  elementsToReveal.forEach(el => {
-    el.classList.add('reveal-up'); // Añadimos la clase base por JS para que no afecte si JS falla
-  });
-
-  // Fallback robusto: si IntersectionObserver no está disponible o falla,
-  // mostramos el contenido para evitar pantallas "negras".
-  if ('IntersectionObserver' in window) {
-    try {
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target); // Solo se anima una vez para mejorar rendimiento
-          }
-        });
-      }, observerOptions);
-
-      elementsToReveal.forEach(el => observer.observe(el));
-    } catch (e) {
-      elementsToReveal.forEach(el => el.classList.add('is-visible'));
-    }
-  } else {
-    elementsToReveal.forEach(el => el.classList.add('is-visible'));
-  }
-
-  // Watchdog anti-pantalla negra:
-  // si algún reveal no se activó por condiciones de render/dispositivo, lo mostramos.
-  setTimeout(() => {
-    document.querySelectorAll('.reveal-up:not(.is-visible)').forEach(el => {
-      el.classList.add('is-visible');
-    });
-    document.querySelectorAll('.r:not(.on)').forEach(el => {
-      el.classList.add('on');
-    });
+  setTimeout(function(){
     document.body.classList.add('page-loaded');
   }, 900);
 });
