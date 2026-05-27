@@ -42,7 +42,7 @@ nav.solid{background:#000;border-bottom:1px solid rgba(255,255,255,.12);opacity:
 }
 .nav-dropdown-toggle:hover,.nav-dropdown.open .nav-dropdown-toggle{color:#fff}
 .nav-dropdown-caret{font-size:10px;transition:transform .25s}
-.nav-dropdown.open .nav-dropdown-caret,.nav-dropdown:hover .nav-dropdown-caret,.nav-dropdown:focus-within .nav-dropdown-caret{transform:rotate(180deg)}
+.nav-dropdown.open .nav-dropdown-caret,.nav-dropdown:focus-within .nav-dropdown-caret{transform:rotate(180deg)}
 .nav-dropdown-menu{
   list-style:none;margin:0;padding:10px 0;
   position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);
@@ -65,10 +65,81 @@ nav.solid{background:#000;border-bottom:1px solid rgba(255,255,255,.12);opacity:
 .nav-dropdown-menu a:hover{background:rgba(200,240,74,.08);color:var(--a)!important}
 .nav-dropdown-menu a.is-active{color:var(--a)!important;background:rgba(200,240,74,.06)}
 @media(min-width:993px){
-  .nav-dropdown:hover .nav-dropdown-menu,
+  /* En escritorio se abre por click (clase .open), no por hover. */
   .nav-dropdown:focus-within .nav-dropdown-menu{
     opacity:1;visibility:visible;pointer-events:auto;
   }
+}
+
+/* Abierto por JS (click) — desktop + móvil */
+.nav-dropdown.open .nav-dropdown-menu{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+/* ---- NAV: SERVICIOS DROPDOWN (MEGA CARDS) ---- */
+.nav-dropdown-menu{
+  padding:14px;
+  min-width:560px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.nav-dropdown-menu li{margin:0}
+.nav-dropdown-menu a{
+  border:1px solid rgba(200,240,74,.18) !important;
+  border-radius:12px;
+  background:linear-gradient(145deg,#0a0a0a,#0f0f0f);
+  padding:14px 14px 12px;
+  color:#f0ede6 !important;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  white-space:normal;
+  line-height:1.25;
+  letter-spacing:.01em;
+  transition:transform .18s ease, border-color .2s, background .2s, box-shadow .2s;
+  position:relative;
+  overflow:hidden;
+}
+.nav-dropdown-menu a::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 20% 0%,rgba(200,240,74,.10),transparent 55%);
+  opacity:0;
+  transition:opacity .25s;
+  pointer-events:none;
+}
+.nav-dropdown-menu a::after{
+  content:'';
+  color:rgba(240,237,230,.72);
+  font-size:12px;
+  line-height:1.45;
+  letter-spacing:.01em;
+}
+.nav-dropdown-menu a[href="/servicios/auditoria.html"]::after{content:'Auditoría técnica, CRO y diagnóstico de mercado.'}
+.nav-dropdown-menu a[href="/servicios/ingenieria-de-marca.html"]::after{content:'Posicionamiento, voice & tone y sistema visual escalable.'}
+.nav-dropdown-menu a[href="/servicios/performance.html"]::after{content:'Web/e-commerce, ads y ejecución orientada a conversión.'}
+.nav-dropdown-menu a[href="/servicios/automatizacion.html"]::after{content:'Marketing, ventas y ops conectadas en piloto automático.'}
+.nav-dropdown-menu a[href="/servicios/data-analytics.html"]::after{content:'A/B testing, BI y optimización continua con datos reales.'}
+.nav-dropdown-menu a:hover{
+  transform:translateY(-2px);
+  border-color:rgba(200,240,74,.42) !important;
+  box-shadow:0 16px 44px rgba(0,0,0,.55);
+  background:linear-gradient(145deg,#0a0f14,#0a1a10);
+}
+.nav-dropdown-menu a:hover::before{opacity:1}
+.nav-dropdown-menu a:focus-visible{
+  outline:2px solid rgba(200,240,74,.55);
+  outline-offset:3px;
+}
+
+@media(max-width:992px){
+  .nav-dropdown-menu{min-width:0;grid-template-columns:1fr;gap:10px}
+  .nav-dropdown.open .nav-dropdown-menu{padding:10px 0 14px}
+  .nav-dropdown-menu a{padding:14px 14px 12px}
 }
 .menu-toggle{display:none;background:none;border:none;cursor:pointer;z-index:9999;position:relative;padding:10px;align-items:center;justify-content:center;flex-direction:column}
 .menu-toggle .bar{display:block;width:28px;height:2px;margin:6px auto;background:#ffffff;transition:all .4s ease}

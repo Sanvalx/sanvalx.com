@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!toggle){ return; }
 
     toggle.addEventListener('click', function(e){
-      if(window.innerWidth > mobileBreakpoint){ return; }
       e.preventDefault();
       e.stopPropagation();
       var isOpen = dropdown.classList.contains('open');
