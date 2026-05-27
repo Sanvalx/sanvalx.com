@@ -399,16 +399,14 @@ function initScrollReveal(){
   var skipWithin = '#nav, footer, #cookie-banner, #intro, .hero .h1hero, .hero .hfoot';
 
   function shouldSkip(el){
-    return !el || el.closest(skipWithin);
-  }
-
-  function markVisible(el){
-    el.classList.add('is-visible');
-    if(el.classList.contains('r')) el.classList.add('on');
+    if(!el || el.closest(skipWithin)) return true;
+    return false;
   }
 
   var selectorList = [
+    '.r',
     'section.sec',
+    'body.servicio-page section.sec',
     'section.proc',
     'section.testi',
     'section.cta',
@@ -439,8 +437,8 @@ function initScrollReveal(){
     '.pol-wrap > p',
     '.pol-wrap > ul',
     '.pol-wrap > table',
-    '.page-cta > div',
-    '.r'
+    '.page-cta .r',
+    '.page-cta > div'
   ];
 
   var seen = new Set();
@@ -448,22 +446,21 @@ function initScrollReveal(){
   selectorList.forEach(function(sel){
     document.querySelectorAll(sel).forEach(function(el){
       if(seen.has(el) || shouldSkip(el)) return;
-      if(el.closest('[data-reveal]') && el !== el.closest('[data-reveal]')) return;
       seen.add(el);
-      el.setAttribute('data-reveal', '');
       el.classList.add('reveal-up');
       elements.push(el);
     });
   });
 
-  if(!elements.length) return;
+  function markVisible(el){
+    el.classList.add('is-visible');
+    if(el.classList.contains('r')) el.classList.add('on');
+  }
 
   if(reduceMotion || !('IntersectionObserver' in window)){
     elements.forEach(markVisible);
     return;
   }
-
-  void document.documentElement.offsetHeight;
 
   var observer = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
@@ -473,62 +470,35 @@ function initScrollReveal(){
       setTimeout(function(){ markVisible(el); }, delay);
       observer.unobserve(el);
     });
-  }, { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+  }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
 
   elements.forEach(function(el){
     var parent = el.parentElement;
     if(parent){
       var siblings = Array.prototype.filter.call(parent.children, function(c){
-        return c.hasAttribute && c.hasAttribute('data-reveal');
+        return c.classList && c.classList.contains('reveal-up');
       });
       var idx = siblings.indexOf(el);
-      if(idx > 0 && idx < 10) el.setAttribute('data-reveal-delay', String(idx * 75));
+      if(idx > 0 && idx < 8) el.setAttribute('data-reveal-delay', String(idx * 65));
     }
     observer.observe(el);
   });
 
-  function revealAboveFold(){
-    var inView = elements.filter(function(el){
-      if(el.classList.contains('is-visible')) return false;
-      var rect = el.getBoundingClientRect();
-      return rect.top < window.innerHeight * 0.92 && rect.bottom > 24;
-    });
-    inView.sort(function(a, b){
-      return a.getBoundingClientRect().top - b.getBoundingClientRect().top;
-    });
-    inView.forEach(function(el, i){
-      setTimeout(function(){ markVisible(el); }, 120 + i * 85);
-    });
-  }
-
   requestAnimationFrame(function(){
-    requestAnimationFrame(revealAboveFold);
+    elements.forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight * 0.9 && rect.bottom > 0) markVisible(el);
+    });
   });
 
   setTimeout(function(){
-    document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(markVisible);
-  }, 4000);
+    document.querySelectorAll('.reveal-up:not(.is-visible), .r:not(.is-visible)').forEach(markVisible);
+  }, 1200);
 }
 
-function startScrollRevealWhenReady(){
-  function run(){
-    initScrollReveal();
-  }
-  if(document.body.classList.contains('page-loaded')){
-    setTimeout(run, 80);
-    return;
-  }
-  var started = false;
-  function tryRun(){
-    if(started) return;
-    started = true;
-    setTimeout(run, 100);
-  }
-  window.addEventListener('load', tryRun);
-  setTimeout(tryRun, 700);
-}
-
-document.addEventListener('DOMContentLoaded', startScrollRevealWhenReady);
+document.addEventListener('DOMContentLoaded', function(){
+  initScrollReveal();
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   if (document.body.classList.contains('contacto-page')) {
