@@ -1,3 +1,10 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/functions.php';
+
+$csrfToken = csrf_token();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -42,6 +49,8 @@
   <div id="formulario-contacto" class="form-shell">
     <form id="form-contacto" class="form-grid" action="/procesar_lead.php" method="post" novalidate>
       <p class="form-intro full">Los campos con <span class="req" aria-hidden="true">*</span> son obligatorios. Te respondemos en menos de 24&nbsp;h.</p>
+
+      <input type="hidden" name="csrf_token" value="<?= e($csrfToken) ?>">
 
       <div class="form-honeypot" aria-hidden="true">
         <label for="website_url">No rellenar</label>

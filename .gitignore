@@ -20,6 +20,8 @@ Thumbs.db
 .env
 .env.local
 config.php
+config/database.php
+storage/rate_limit/
 
 # Archivos temporales
 *.tmp

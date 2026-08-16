@@ -116,22 +116,13 @@ function contacto_process_submission(): void {
         contacto_respond_error('Método no permitido.', 405, 'servidor');
     }
 
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-    $rateKey = 'contact_' . md5((string) ($_SERVER['REMOTE_ADDR'] ?? ''));
-    $now = time();
-    if (!isset($_SESSION[$rateKey])) {
-        $_SESSION[$rateKey] = [];
-    }
-    $_SESSION[$rateKey] = array_values(array_filter(
-        $_SESSION[$rateKey],
-        static fn(int $t): bool => $t > $now - 3600
-    ));
-    if (count($_SESSION[$rateKey]) >= 5) {
+    if (!rate_limit_by_ip('contact_form', 5, 3600)) {
         contacto_respond_error('Demasiados envíos. Inténtalo más tarde.', 429, 'limite');
     }
-    $_SESSION[$rateKey][] = $now;
+
+    if (!csrf_validate((string) ($_POST['csrf_token'] ?? ''))) {
+        contacto_respond_error('La sesión del formulario expiró. Recarga la página e inténtalo de nuevo.', 403, 'csrf');
+    }
 
     if (!empty($_POST['website_url'])) {
         contacto_respond_success();
@@ -164,7 +155,7 @@ function contacto_process_submission(): void {
         $mensajeCompleto .= "\n\nWhatsApp: " . $whatsapp;
     }
 
-    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $ip = client_ip();
 
     try {
         $pdo = contacto_get_pdo();

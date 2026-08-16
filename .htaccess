@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# Formulario de contacto con token CSRF (URL pública sigue siendo contacto.html)
+RewriteRule ^contacto\.html$ contacto.php [L]
+
 # Forzar HTTPS
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -20,6 +23,8 @@ ErrorDocument 404 /404.html
 RewriteRule ^config/ - [F,L]
 RewriteRule ^database/ - [F,L]
 RewriteRule ^scripts/ - [F,L]
+RewriteRule ^includes/ - [F,L]
+RewriteRule ^storage/ - [F,L]
 
 # --- INICIO BLOQUE SEGURIDAD ---
 # Bloquear listado de directorios y ocultar firma del servidor
@@ -33,6 +38,8 @@ ServerSignature Off
     Header set X-Content-Type-Options "nosniff"
     Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+    Header set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.clarity.ms https://connect.facebook.net; frame-src https://www.googletagmanager.com"
 </IfModule>
 # --- FIN BLOQUE SEGURIDAD ---
 

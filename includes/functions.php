@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Funciones de seguridad y utilidad para SANVALX.
  */
@@ -35,19 +37,83 @@ function require_post(): void {
     }
 }
 
-/** Rate limit simple por IP (evita spam): máx 5 envíos por hora por IP */
-function rate_limit_contact(int $maxPerHour = 5): void {
-    $key = 'contact_' . md5($_SERVER['REMOTE_ADDR'] ?? '');
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+/** IP del cliente (solo REMOTE_ADDR; no confiar en cabeceras X-Forwarded sin proxy configurado) */
+function client_ip(): string {
+    return (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+}
+
+/** Inicia sesión con cookies seguras */
+function secure_session_start(): void {
+    if (session_status() !== PHP_SESSION_NONE) {
+        return;
     }
+
+    $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
+
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '',
+        'secure' => $secure,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+
+    session_start();
+}
+
+/** Genera o devuelve el token CSRF de la sesión actual */
+function csrf_token(): string {
+    secure_session_start();
+    if (empty($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+/** Valida el token CSRF enviado en POST */
+function csrf_validate(?string $token): bool {
+    secure_session_start();
+    if ($token === null || $token === '' || empty($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
+        return false;
+    }
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+
+/**
+ * Rate limit por IP en disco (no depende de cookies de sesión).
+ * @return true si la petición está permitida
+ */
+function rate_limit_by_ip(string $bucket, int $maxPerHour = 5, int $windowSeconds = 3600): bool {
+    $dir = dirname(__DIR__) . '/storage/rate_limit';
+    if (!is_dir($dir) && !mkdir($dir, 0700, true) && !is_dir($dir)) {
+        error_log('rate_limit_by_ip: no se pudo crear ' . $dir);
+        return true;
+    }
+
+    $hash = hash('sha256', client_ip());
+    $file = $dir . '/' . preg_replace('/[^a-z0-9_-]/i', '', $bucket) . '_' . $hash . '.json';
     $now = time();
-    if (!isset($_SESSION[$key])) {
-        $_SESSION[$key] = [];
+    $timestamps = [];
+
+    if (is_file($file)) {
+        $raw = file_get_contents($file);
+        $decoded = json_decode($raw ?: '[]', true);
+        if (is_array($decoded)) {
+            $timestamps = array_values(array_filter(
+                $decoded,
+                static fn($t): bool => is_int($t) && $t > $now - $windowSeconds
+            ));
+        }
     }
-    $_SESSION[$key] = array_filter($_SESSION[$key], fn($t) => $t > $now - 3600);
-    if (count($_SESSION[$key]) >= $maxPerHour) {
-        json_response(['ok' => false, 'error' => 'Demasiados envíos. Intente más tarde.'], 429);
+
+    if (count($timestamps) >= $maxPerHour) {
+        return false;
     }
-    $_SESSION[$key][] = $now;
+
+    $timestamps[] = $now;
+    file_put_contents($file, json_encode($timestamps), LOCK_EX);
+
+    return true;
 }
