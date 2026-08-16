@@ -84,7 +84,8 @@ SQL);
 } catch (Throwable $e) {
     @unlink($configFile);
     http_response_code(500);
-    exit('DB test failed: ' . $e->getMessage());
+    header('Content-Type: text/plain; charset=utf-8');
+    exit('DB test failed [' . $name . '/' . $user . ']: ' . $e->getMessage());
 }
 
 @unlink(__FILE__);
