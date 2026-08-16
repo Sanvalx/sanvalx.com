@@ -28,6 +28,7 @@ function contacto_respond_success(): void {
     exit;
 }
 
+/** Obtiene PDO desde config/database.php o config.php en la raíz */
 function contacto_get_pdo(): PDO {
     $databaseFile = __DIR__ . '/../config/database.php';
     if (is_file($databaseFile)) {
