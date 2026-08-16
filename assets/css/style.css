@@ -11,6 +11,13 @@ html.js #C,html.js #F{opacity:1}
 #C{width:8px;height:8px;background:var(--a);transition:width .15s,height .15s,opacity .2s}
 #F{width:36px;height:36px;border:1px solid rgba(200,240,74,.35);z-index:9998;transition:width .22s,height .22s}
 
+/* En pantallas táctiles no usamos cursor custom */
+@media (pointer: coarse) {
+  html.js body { cursor: auto; }
+  html.js #C, html.js #F { opacity: 0; }
+  #C, #F { display: none; }
+}
+
 /* ---- INTRO SCREEN ---- */
 #intro{display:none}
 html.js #intro{position:fixed;inset:0;background:#fff;z-index:5000;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -42,7 +49,7 @@ nav.solid{background:#000;border-bottom:1px solid rgba(255,255,255,.12);opacity:
 }
 .nav-dropdown-toggle:hover,.nav-dropdown.open .nav-dropdown-toggle{color:#fff}
 .nav-dropdown-caret{font-size:10px;transition:transform .25s}
-.nav-dropdown.open .nav-dropdown-caret,.nav-dropdown:hover .nav-dropdown-caret,.nav-dropdown:focus-within .nav-dropdown-caret{transform:rotate(180deg)}
+.nav-dropdown.open .nav-dropdown-caret,.nav-dropdown:focus-within .nav-dropdown-caret{transform:rotate(180deg)}
 .nav-dropdown-menu{
   list-style:none;margin:0;padding:10px 0;
   position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);
@@ -65,10 +72,81 @@ nav.solid{background:#000;border-bottom:1px solid rgba(255,255,255,.12);opacity:
 .nav-dropdown-menu a:hover{background:rgba(200,240,74,.08);color:var(--a)!important}
 .nav-dropdown-menu a.is-active{color:var(--a)!important;background:rgba(200,240,74,.06)}
 @media(min-width:993px){
-  .nav-dropdown:hover .nav-dropdown-menu,
+  /* En escritorio se abre por click (clase .open), no por hover. */
   .nav-dropdown:focus-within .nav-dropdown-menu{
     opacity:1;visibility:visible;pointer-events:auto;
   }
+}
+
+/* Abierto por JS (click) — desktop + móvil */
+.nav-dropdown.open .nav-dropdown-menu{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+/* ---- NAV: SERVICIOS DROPDOWN (MEGA CARDS) ---- */
+.nav-dropdown-menu{
+  padding:14px;
+  min-width:560px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.nav-dropdown-menu li{margin:0}
+.nav-dropdown-menu a{
+  border:1px solid rgba(200,240,74,.18) !important;
+  border-radius:12px;
+  background:linear-gradient(145deg,#0a0a0a,#0f0f0f);
+  padding:14px 14px 12px;
+  color:#f0ede6 !important;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  white-space:normal;
+  line-height:1.25;
+  letter-spacing:.01em;
+  transition:transform .18s ease, border-color .2s, background .2s, box-shadow .2s;
+  position:relative;
+  overflow:hidden;
+}
+.nav-dropdown-menu a::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 20% 0%,rgba(200,240,74,.10),transparent 55%);
+  opacity:0;
+  transition:opacity .25s;
+  pointer-events:none;
+}
+.nav-dropdown-menu a::after{
+  content:'';
+  color:rgba(240,237,230,.72);
+  font-size:12px;
+  line-height:1.45;
+  letter-spacing:.01em;
+}
+.nav-dropdown-menu a[href="/servicios/auditoria.html"]::after{content:'Auditoría técnica, CRO y diagnóstico de mercado.'}
+.nav-dropdown-menu a[href="/servicios/ingenieria-de-marca.html"]::after{content:'Posicionamiento, voice & tone y sistema visual escalable.'}
+.nav-dropdown-menu a[href="/servicios/performance.html"]::after{content:'Web/e-commerce, ads y ejecución orientada a conversión.'}
+.nav-dropdown-menu a[href="/servicios/automatizacion.html"]::after{content:'Marketing, ventas y ops conectadas en piloto automático.'}
+.nav-dropdown-menu a[href="/servicios/data-analytics.html"]::after{content:'A/B testing, BI y optimización continua con datos reales.'}
+.nav-dropdown-menu a:hover{
+  transform:translateY(-2px);
+  border-color:rgba(200,240,74,.42) !important;
+  box-shadow:0 16px 44px rgba(0,0,0,.55);
+  background:linear-gradient(145deg,#0a0f14,#0a1a10);
+}
+.nav-dropdown-menu a:hover::before{opacity:1}
+.nav-dropdown-menu a:focus-visible{
+  outline:2px solid rgba(200,240,74,.55);
+  outline-offset:3px;
+}
+
+@media(max-width:992px){
+  .nav-dropdown-menu{min-width:0;grid-template-columns:1fr;gap:10px}
+  .nav-dropdown.open .nav-dropdown-menu{padding:10px 0 14px}
+  .nav-dropdown-menu a{padding:14px 14px 12px}
 }
 .menu-toggle{display:none;background:none;border:none;cursor:pointer;z-index:9999;position:relative;padding:10px;align-items:center;justify-content:center;flex-direction:column}
 .menu-toggle .bar{display:block;width:28px;height:2px;margin:6px auto;background:#ffffff;transition:all .4s ease}
@@ -352,10 +430,33 @@ footer{border-top:1px solid var(--b);padding:40px 52px;display:flex;justify-cont
 .flinks a{color:var(--m);text-decoration:none;font-size:12px;transition:color .2s}
 .flinks a:hover{color:var(--t)}
 .fcopy{color:var(--m);font-size:11px}
-/* Reveal elements stay visible by default; JS mode enables animated reveal. */
-.r{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
-html.js .r{opacity:1;transform:none}
-.r.on{opacity:1;transform:translateY(0)}
+/* Scroll reveal: visible by default; animación solo con JS activo */
+.r,
+.reveal-up{
+  opacity:1;
+  transform:none;
+  transition:opacity .55s ease-out,transform .55s ease-out;
+}
+html.js .r:not(.is-visible):not(.on),
+html.js .reveal-up:not(.is-visible){
+  opacity:0;
+  transform:translateY(22px);
+}
+.r.is-visible,
+.r.on,
+.reveal-up.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+@media (prefers-reduced-motion: reduce){
+  html.js .r,
+  html.js .reveal-up,
+  .r,.reveal-up{
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+  }
+}
 /* WhatsApp floating */
 .wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#25d366;color:#060606;z-index:700;box-shadow:0 10px 32px rgba(0,0,0,.35);transition:transform .2s,box-shadow .25s}
 .wa-float svg{display:block}
@@ -477,41 +578,11 @@ h1 em, h2 em, .ttl em {
   color: var(--m, #c8f04a); /* El acento neón */
 }
 
-/* 3. Sistema de Scroll Reveal (Aparición fluida) */
-.reveal-up {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-.reveal-up.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-body.nosotros-page .reveal-up {
-  opacity: 1 !important;
-  transform: none !important;
-}
-body.nosotros-page,
+/* 3. Scroll reveal — ver bloque .reveal-up / .r arriba (0.55s ease-out) */
 body.nosotros-page.page-loaded,
-body.nosotros-page.page-exit {
-  opacity: 1 !important;
-}
-body.nosotros-page .r,
-html.js body.nosotros-page .r {
-  opacity: 1 !important;
-  transform: none !important;
-}
-body.contacto-page,
 body.contacto-page.page-loaded,
-body.contacto-page.page-exit {
-  opacity: 1 !important;
-}
-body.contacto-page .r,
-html.js body.contacto-page .r,
-body.contacto-page .reveal-up {
-  opacity: 1 !important;
-  transform: none !important;
+body.metodo-page.page-loaded{
+  opacity:1!important;
 }
 
 /* 4. Efectos Hover Premium para CTAs */
