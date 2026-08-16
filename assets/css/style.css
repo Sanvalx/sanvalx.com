@@ -94,6 +94,18 @@ nav.solid{background:#000;border-bottom:1px solid rgba(255,255,255,.12);opacity:
   gap:10px;
 }
 .nav-dropdown-menu li{margin:0}
+.nav-dropdown-group-label{
+  grid-column:1/-1;
+  padding:10px 6px 2px;
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(200,240,74,.72);
+  font-family:monospace;
+  pointer-events:none;
+  list-style:none;
+}
+.nav-dropdown-group-label:first-child{padding-top:0}
 .nav-dropdown-menu a{
   border:1px solid rgba(200,240,74,.18) !important;
   border-radius:12px;
@@ -126,11 +138,11 @@ nav.solid{background:#000;border-bottom:1px solid rgba(255,255,255,.12);opacity:
   line-height:1.45;
   letter-spacing:.01em;
 }
-.nav-dropdown-menu a[href="/servicios/auditoria.html"]::after{content:'Auditoría técnica, CRO y diagnóstico de mercado.'}
-.nav-dropdown-menu a[href="/servicios/ingenieria-de-marca.html"]::after{content:'Posicionamiento, voice & tone y sistema visual escalable.'}
-.nav-dropdown-menu a[href="/servicios/performance.html"]::after{content:'Web/e-commerce, ads y ejecución orientada a conversión.'}
-.nav-dropdown-menu a[href="/servicios/automatizacion.html"]::after{content:'Marketing, ventas y ops conectadas en piloto automático.'}
-.nav-dropdown-menu a[href="/servicios/data-analytics.html"]::after{content:'A/B testing, BI y optimización continua con datos reales.'}
+.nav-dropdown-menu a[href="/servicios/auditoria.html"]::after{content:'Encuentra fugas de rentabilidad antes de escalar.'}
+.nav-dropdown-menu a[href="/servicios/ingenieria-de-marca.html"]::after{content:'Sal de la guerra de precios con una marca memorable.'}
+.nav-dropdown-menu a[href="/servicios/performance.html"]::after{content:'Web rápida + tráfico cualificado.'}
+.nav-dropdown-menu a[href="/servicios/automatizacion.html"]::after{content:'Deja de hacer a mano lo que un sistema puede hacer solo.'}
+.nav-dropdown-menu a[href="/servicios/data-analytics.html"]::after{content:'Decisiones con datos reales, no con intuición.'}
 .nav-dropdown-menu a:hover{
   transform:translateY(-2px);
   border-color:rgba(200,240,74,.42) !important;
@@ -147,6 +159,7 @@ nav.solid{background:#000;border-bottom:1px solid rgba(255,255,255,.12);opacity:
   .nav-dropdown-menu{min-width:0;grid-template-columns:1fr;gap:10px}
   .nav-dropdown.open .nav-dropdown-menu{padding:10px 0 14px}
   .nav-dropdown-menu a{padding:14px 14px 12px}
+  .nav-dropdown-group-label{padding:12px 8px 2px;font-size:11px}
 }
 .menu-toggle{display:none;background:none;border:none;cursor:pointer;z-index:9999;position:relative;padding:10px;align-items:center;justify-content:center;flex-direction:column}
 .menu-toggle .bar{display:block;width:28px;height:2px;margin:6px auto;background:#ffffff;transition:all .4s ease}
@@ -323,6 +336,7 @@ h1.ttl,h2.ttl,h3.ttl{line-height:.93}
 .sv2{background:linear-gradient(135deg,#0a0f0a,#0a2015)}
 .sv3{background:linear-gradient(135deg,#080f0a,#0a2015)}
 .sv4{background:linear-gradient(135deg,#0f0805,#251205)}
+.sv5{background:linear-gradient(135deg,#0a0f14,#0f1a28)}
 .sc h3{font-family:var(--fd);font-size:23px;font-weight:700;margin-bottom:14px;letter-spacing:-.3px}
 .sc p{color:var(--m);font-size:14px;line-height:1.72;margin-bottom:26px}
 .tags{display:flex;flex-wrap:wrap;gap:7px}

@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# Legacy: redirigir página antigua de auditoría
+Redirect 301 /servicios/growth-audit-diagnostico.html /servicios/auditoria.html
+
 # Formulario de contacto con token CSRF (URL pública sigue siendo contacto.html)
 RewriteRule ^contacto\.html$ contacto.php [L]
 
