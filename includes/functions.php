@@ -14,7 +14,10 @@ function e(string $s): string {
 function sanitize_input(string $s, int $maxLen = 500): string {
     $s = trim($s);
     $s = strip_tags($s);
-    return mb_substr($s, 0, $maxLen);
+    if (function_exists('mb_substr')) {
+        return mb_substr($s, 0, $maxLen);
+    }
+    return substr($s, 0, $maxLen);
 }
 
 /** Valida email */
@@ -42,43 +45,58 @@ function client_ip(): string {
     return (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
 }
 
-/** Inicia sesión con cookies seguras */
-function secure_session_start(): void {
-    if (session_status() !== PHP_SESSION_NONE) {
+const CSRF_COOKIE_NAME = 'svx_csrf';
+
+/** Petición servida por HTTPS */
+function request_is_secure(): bool {
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
+}
+
+/** Establece la cookie del token CSRF (httponly, sin depender de sesiones PHP) */
+function csrf_set_cookie(string $token): void {
+    $expires = time() + 7200;
+    $secure = request_is_secure();
+
+    if (PHP_VERSION_ID >= 70300) {
+        setcookie(CSRF_COOKIE_NAME, $token, [
+            'expires' => $expires,
+            'path' => '/',
+            'domain' => '',
+            'secure' => $secure,
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
         return;
     }
 
-    $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
-
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'domain' => '',
-        'secure' => $secure,
-        'httponly' => true,
-        'samesite' => 'Lax',
-    ]);
-
-    session_start();
+    setcookie(CSRF_COOKIE_NAME, $token, $expires, '/', '', $secure, true);
 }
 
-/** Genera o devuelve el token CSRF de la sesión actual */
+/** Genera o reutiliza el token CSRF (cookie + campo oculto deben coincidir al enviar) */
 function csrf_token(): string {
-    secure_session_start();
-    if (empty($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    $cookie = $_COOKIE[CSRF_COOKIE_NAME] ?? '';
+    if (is_string($cookie) && preg_match('/^[a-f0-9]{64}$/', $cookie) === 1) {
+        return $cookie;
     }
-    return $_SESSION['csrf_token'];
+
+    $token = bin2hex(random_bytes(32));
+    csrf_set_cookie($token);
+    return $token;
 }
 
 /** Valida el token CSRF enviado en POST */
 function csrf_validate(?string $token): bool {
-    secure_session_start();
-    if ($token === null || $token === '' || empty($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
+    if ($token === null || $token === '' || preg_match('/^[a-f0-9]{64}$/', $token) !== 1) {
         return false;
     }
-    return hash_equals($_SESSION['csrf_token'], $token);
+
+    $cookie = $_COOKIE[CSRF_COOKIE_NAME] ?? '';
+    if (!is_string($cookie) || $cookie === '') {
+        return false;
+    }
+
+    return hash_equals($cookie, $token);
 }
 
 /**
@@ -103,7 +121,9 @@ function rate_limit_by_ip(string $bucket, int $maxPerHour = 5, int $windowSecond
         if (is_array($decoded)) {
             $timestamps = array_values(array_filter(
                 $decoded,
-                static fn($t): bool => is_int($t) && $t > $now - $windowSeconds
+                static function ($t) use ($now, $windowSeconds): bool {
+                    return is_int($t) && $t > $now - $windowSeconds;
+                }
             ));
         }
     }

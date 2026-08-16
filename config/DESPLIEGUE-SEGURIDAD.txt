@@ -18,11 +18,13 @@ Sube todo el proyecto excepto:
 - `config.php` si lo tienes local con secretos
 - `storage/rate_limit/*` (se crea solo; la carpeta debe ser escribible)
 
-En el servidor, crea si no existe:
+En el servidor, crea si no existe (PHP debe poder escribir):
 ```
 storage/rate_limit/
-chmod 700 storage/rate_limit
+chmod 700 storage storage/rate_limit
 ```
+
+Nota: el CSRF del formulario usa cookie httponly (`svx_csrf`), no sesiones PHP.
 
 ## 3. Git / GitHub
 

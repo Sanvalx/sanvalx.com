@@ -2,3 +2,4 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/includes/contacto_submit.php';
+contacto_process_submission();

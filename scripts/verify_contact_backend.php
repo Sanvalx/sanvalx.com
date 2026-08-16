@@ -29,8 +29,16 @@ $submitFile = $root . '/includes/contacto_submit.php';
 $processorFile = $root . '/procesar_lead.php';
 
 check('procesar_lead.php existe', is_file($processorFile));
+check('contacto.php existe', is_file($root . '/contacto.php'));
 check('includes/contacto_submit.php existe', is_file($submitFile));
+check('includes/functions.php existe', is_file($root . '/includes/functions.php'));
 check('database/schema.sql existe', is_file($schemaFile));
+
+$rateLimitDir = $root . '/storage/rate_limit';
+if (!is_dir($rateLimitDir)) {
+    @mkdir($rateLimitDir, 0700, true);
+}
+check('storage/rate_limit escribible', is_dir($rateLimitDir) && is_writable($rateLimitDir));
 
 $configSource = '';
 $pdo = null;
@@ -52,7 +60,9 @@ if (is_file($databaseFile)) {
     $config = require $configFile;
     $configSource = 'config.php';
     $required = ['db_host', 'db_name', 'db_user', 'db_pass'];
-    $missing = array_filter($required, static fn(string $k): bool => empty($config[$k]));
+    $missing = array_filter($required, static function (string $k) use ($config): bool {
+        return empty($config[$k]);
+    });
     check('config.php tiene credenciales', $missing === [], $missing ? 'faltan: ' . implode(', ', $missing) : '');
     if ($missing === []) {
         try {

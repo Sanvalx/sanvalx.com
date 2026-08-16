@@ -20,3 +20,4 @@ if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
 }
 
 require_once __DIR__ . '/../includes/contacto_submit.php';
+contacto_process_submission();

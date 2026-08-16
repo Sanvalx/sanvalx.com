@@ -187,5 +187,3 @@ function contacto_process_submission(): void {
         contacto_respond_error('No se pudo enviar el formulario.', 500, 'servidor');
     }
 }
-
-contacto_process_submission();
