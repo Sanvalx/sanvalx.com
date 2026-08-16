@@ -1,0 +1,39 @@
+# Despliegue en Hostinger — checklist de seguridad
+
+## 1. Rotar contraseña MySQL (OBLIGATORIO si estuvo en GitHub)
+
+1. Entra en **hPanel** → **Bases de datos** → **MySQL**.
+2. Localiza el usuario de la BD del sitio (ej. `u636621141_Tg6BM`).
+3. Pulsa **Cambiar contraseña** y genera una contraseña nueva (guárdala en un gestor).
+4. En el servidor, edita **solo en el hosting** (no subas a git):
+   - `config/database.php` → actualiza `DB_PASS`
+   - O si usas `config.php` en la raíz, actualiza `db_pass`.
+5. Verifica: `php scripts/verify_contact_backend.php` (SSH o terminal Hostinger).
+6. Prueba el formulario en `/contacto.html`.
+
+## 2. Subir archivos al servidor
+
+Sube todo el proyecto excepto:
+- `config/database.php` (edítalo directamente en el servidor)
+- `config.php` si lo tienes local con secretos
+- `storage/rate_limit/*` (se crea solo; la carpeta debe ser escribible)
+
+En el servidor, crea si no existe:
+```
+storage/rate_limit/
+chmod 700 storage/rate_limit
+```
+
+## 3. Git / GitHub
+
+- Confirma que `config/database.php` **no** aparece en `git status`.
+- Haz **commit + push** de los cambios de seguridad y servicios.
+- Opcional (recomendado): limpia el historial con [BFG Repo-Cleaner](https://rfc-editor.org/rfc/rfc9110.html) para borrar la contraseña antigua de commits viejos, o haz el repo **privado**.
+
+## 4. Comprobar en producción
+
+- [ ] https://sanvalx.com/contacto.html carga el formulario (rewrite a contacto.php)
+- [ ] Envío de prueba → redirige a /gracias.html
+- [ ] Menú Servicios muestra 3 etapas
+- [ ] /servicios/growth-audit-diagnostico.html redirige a auditoria.html
+- [ ] Cabeceras: https://securityheaders.com/?q=sanvalx.com
