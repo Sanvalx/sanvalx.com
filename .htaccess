@@ -19,6 +19,9 @@ ErrorDocument 404 /404.html
 
 # Seguridad: no permitir acceso directo a config (credenciales BD)
 <IfModule mod_authz_core.c>
+  <Files "config.php">
+    Require all denied
+  </Files>
   <FilesMatch "\.(env|ini|log|sql)$">
     Require all denied
   </FilesMatch>
