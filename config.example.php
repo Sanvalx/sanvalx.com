@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 declare(strict_types=1);
 
 // Copia como config.php en el servidor (config.php no va a git).

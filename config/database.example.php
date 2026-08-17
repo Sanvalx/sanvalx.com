@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Plantilla de configuración MySQL para SANVALX.
  * Copia como config/database.php en el servidor y rellena los valores reales.
