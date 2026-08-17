@@ -20,11 +20,18 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: ./
+          dangerous-clean-slate: false
+          ignore-ftp-user-perms: true
           exclude: |
+            .git/**
+            .gitignore
+            .gitattributes
+            **/.git/**
             **/.git*
             **/.github/**
             **/.cursor/**
             **/node_modules/**
+            .ftp-deploy-sync-state.json
             config/database.php
             config.php
             .env
