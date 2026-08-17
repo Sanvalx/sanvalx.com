@@ -12,28 +12,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Generate config/database.php
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-        run: |
-          mkdir -p config
-          DB_HOST="${DB_HOST:-localhost}" \
-          DB_NAME="$DB_NAME" \
-          DB_USER="$DB_USER" \
-          DB_PASS="$DB_PASS" \
-          php scripts/generate-database-config.php > config/database.php
-
-      - name: Upload config/database.php via FTP
-        if: ${{ secrets.FTP_SERVER != '' }}
+      - name: Deploy site via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./config/
-          server-dir: ${{ secrets.FTP_SERVER_DIR || './public_html/config/' }}
-          include: |
-            database.php
+          local-dir: ./
+          server-dir: ./public_html/
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/.cursor/**
+            **/node_modules/**
+            config/database.php
+            config.php
+            .env
+            .env.*
+            storage/rate_limit/**
+            storage/sessions/**
