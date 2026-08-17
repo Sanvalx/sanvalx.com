@@ -24,6 +24,7 @@ ErrorDocument 404 /404.html
   </FilesMatch>
 </IfModule>
 RewriteRule ^config/ - [F,L]
+RewriteRule ^config\.php$ - [F,L]
 RewriteRule ^database/ - [F,L]
 RewriteRule ^scripts/ - [F,L]
 RewriteRule ^includes/ - [F,L]
